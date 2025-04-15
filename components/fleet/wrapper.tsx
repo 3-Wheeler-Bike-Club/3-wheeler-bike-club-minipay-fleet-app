@@ -6,7 +6,14 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 
+import { useAccount } from 'wagmi'
+
 export function Wrapper() {
+
+    const { address, isConnected } = useAccount();
+    console.log(address);
+
+    
     
     return (
         <div className="flex flex-col h-full p-4 md:p-6 lg:p-8 w-full gap-6">
@@ -23,32 +30,42 @@ export function Wrapper() {
             </div>
 
             <div className="flex w-full items-center justify-center">
-                    <div className="flex w-full max-w-[66rem] gap-4">
-                        <Card className="w-full">
-                            <CardHeader>
-                                <CardTitle className="flex justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <HandCoins className="h-6 w-6" />
-                                        <p className="text-lg">Buy a 3-Wheeler</p>
-                                    </div>
-                                    <div>
-                                        <Button 
-                                            className=""
-                                            //onClick={() => router.push("/fleet/buy")}
-                                        >
-                                            <p>Get Brand New </p>
-                                            <ArrowRightFromLine />
-                                        </Button>
-                                    </div>
-                                </CardTitle>
-                            </CardHeader>
-
-                            
-
-                        </Card>
-                    </div>
-                    
+                <div className="flex w-full max-w-[66rem] gap-4">
+                    <Card className="w-full">
+                        <CardHeader>
+                            <CardTitle className="flex justify-between">
+                                <div className="flex items-center gap-2">
+                                    <HandCoins className="h-6 w-6" />
+                                    <p className="text-lg">Buy a 3-Wheeler</p>
+                                </div>
+                                <div>
+                                    <Button 
+                                        className=""
+                                        //onClick={() => router.push("/fleet/buy")}
+                                    >
+                                        <p>Get Brand New </p>
+                                        <ArrowRightFromLine />
+                                    </Button>
+                                </div>
+                            </CardTitle>
+                        </CardHeader>
+                    </Card>
                 </div>
+            </div>
+
+            <div className="flex w-full justify-center">
+                {
+                    isConnected ? (
+                        <div>
+                            <p>{address}</p>
+                        </div>
+                    ) : (
+                        <div>
+                            <p>Not Connected</p>
+                        </div>
+                    )
+                }
+            </div>
         </div>
     );
 }

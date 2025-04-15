@@ -1,6 +1,5 @@
-import { Bell, CheckCheck, Copy, MessagesSquare } from "lucide-react";
-import { useState } from "react";
 import Image from "next/image";
+
 
 export function Menu() {
 
