@@ -12,6 +12,6 @@ export const config = createConfig({
     }),
     */
     transports: {
-      [celo.id]: http(/*process.env.ALCHEMY_RPC_URL*/),
+      [celo.id]: http(process.env.ALCHEMY_RPC_URL),
     },
 });

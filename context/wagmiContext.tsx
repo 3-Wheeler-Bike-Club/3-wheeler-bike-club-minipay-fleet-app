@@ -5,7 +5,7 @@ import { config } from "@/utils/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
-// 2. Set up a React Query client.
+
 const queryClient = new QueryClient()
 
 export const WagmiContext = ({ children }: { children: React.ReactNode }) => {

@@ -5,32 +5,21 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { Wallet, TrendingUp, ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import { injected } from "wagmi/connectors";
-import { useConnect, /*useAccount*/ } from "wagmi";
-import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 export function Wrapper() {
     const router = useRouter()
     console.log(router)
 
-    const [isMiniPay, setIsMiniPay] = useState(false);
-
+    
 
     async function Login() {
         router.push("/fleet")
     }
 
-    const { connect } = useConnect();
-    //const { isConnected } = useAccount();
+    const { isConnected } = useAccount();
 
-    useEffect(() => {
-        if (window.ethereum && window.ethereum.isMiniPay) {
-            setIsMiniPay(true);
-            connect({ connector: injected({ target: "metaMask" }) });
-
-            //isConnected && 
-        }
-    }, []);
+   
     
 
     return (
@@ -72,7 +61,7 @@ export function Wrapper() {
                 </div>
 
                 {
-                    isMiniPay && (
+                    isConnected && (
                         <Button 
                             onClick={Login} 
                             className="w-64 h-16 text-base font-semibold rounded-3xl"
