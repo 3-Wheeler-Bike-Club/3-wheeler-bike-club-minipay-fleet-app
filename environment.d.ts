@@ -5,6 +5,7 @@ declare global {
         interface ProcessEnv {
             
             NEXT_PUBLIC_WC_PROJECT_ID: string
+            ALCHEMY_RPC_URL: string
             MONGO: string
             WHEELER_API_KEY: string
             BASE_URL: string
