@@ -160,7 +160,7 @@ export function Wrapper() {
                             </DrawerClose>
                     </div>
                     <DrawerFooter>
-                        <div className="flex flex-col gap-2 items-center justify-center">
+                        <div className="flex flex-col gap-2 items-center justify-center pb-12">
                             <div className="flex items-center space-x-2">
                                 <Label htmlFor="fractions-mode"><ChartPie /></Label>
                                 <Switch checked={!isFractionsMode} onCheckedChange={() => {
@@ -170,7 +170,9 @@ export function Wrapper() {
                                 }} id="fractions-mode" />
                                 <Label htmlFor="fractions-mode"><RefreshCw /></Label>
                             </div>
-                            <p className="text-xs text-muted-foreground">Toggle between buying fractions or a single 3-Wheeler</p>
+                            <div className="text-xs text-muted-foreground">
+                                <p>Toggle between buying fractions or a single 3-Wheeler</p>
+                            </div>
                         </div>
                     </DrawerFooter>
                 </div>
