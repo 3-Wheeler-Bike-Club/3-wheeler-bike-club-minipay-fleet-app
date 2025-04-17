@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react";
+//import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import { Button } from "@/components/ui/button"
@@ -16,7 +16,7 @@ import {
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { ChartPie, CircleDivide, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
+import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 
@@ -50,12 +50,13 @@ export function Wrapper() {
     
     
     
-
+    /*
     useEffect(() => {
         if (!isConnected) {
             router.replace("/")
         }
     }, [isConnected, router])
+    */
 
     return (
         <div className="flex flex-col w-full h-full items-center gap-8 p-24 max-md:p-6">
@@ -63,7 +64,7 @@ export function Wrapper() {
         <Drawer open={true}>
       
             <DrawerContent>
-                <div className="mx-auto w-full max-w-sm">
+                <div className="mx-auto w-full max-w-sm pb-6">
                     <DrawerHeader>
                         <DrawerTitle>
                             {isFractionsMode ? "Purchase 3-Wheeler Fractions" : "Purchase a 3-Wheeler"}
@@ -160,15 +161,19 @@ export function Wrapper() {
                             </DrawerClose>
                     </div>
                     <DrawerFooter>
-                        <div className="flex flex-col gap-2 items-center justify-center pb-12">
+                        <div className="flex flex-col gap-2 items-center justify-center">
                             <div className="flex items-center space-x-2">
-                                <Label htmlFor="fractions-mode"><ChartPie /></Label>
+                                <Label htmlFor="fractions-mode">
+                                    {isFractionsMode ? <ChartPie className="h-7 w-7 text-yellow-600"/> : <ChartPie className="h-6 w-6 text-muted-foreground"/>}
+                                </Label>
                                 <Switch checked={!isFractionsMode} onCheckedChange={() => {
                                     setIsFractionsMode(!isFractionsMode);
                                     setFractions(1);
                                     setAmount(1);
                                 }} id="fractions-mode" />
-                                <Label htmlFor="fractions-mode"><RefreshCw /></Label>
+                                <Label htmlFor="single-mode">
+                                    {isFractionsMode ? <RefreshCw className="h-6 w-6 text-muted-foreground"/> : <RefreshCw className="h-7 w-7 text-yellow-600"/>}
+                                </Label>
                             </div>
                             <div className="text-xs text-muted-foreground">
                                 <p>Toggle between buying fractions or a single 3-Wheeler</p>
