@@ -5,14 +5,24 @@ import { Menu } from "../top/menu"
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 
-import { useAccount } from 'wagmi'
+import { useAccount, useReadContract } from 'wagmi'
 import { useRouter } from "next/navigation";
+import { fleetOrderBook } from "@/utils/constants/addresses";
+import { fleetOrderBookAbi } from "@/utils/abi";
 
 export function Wrapper() {
 
     const { address, isConnected } = useAccount();
     console.log(address);
 
+    // read balance of cUSD
+    const { data: fleetOwned } = useReadContract({
+        address: fleetOrderBook,
+        abi: fleetOrderBookAbi,
+        functionName: "getFleetOwned",
+        args: [ address! ],
+    });
+    
     const router = useRouter();
     
     return (
@@ -45,9 +55,28 @@ export function Wrapper() {
             </div>
 
             <div className="flex w-full justify-center">
-                <div className="flex w-full max-w-[66rem] gap-4">
-
-                </div>
+                {
+                    !fleetOwned && (
+                        <div className="flex w-full max-w-[66rem] gap-4">
+                            <div className="flex w-full justify-center">
+                                <p>loading...</p>
+                            </div>
+                        </div>
+                    )
+                }
+                {fleetOwned && fleetOwned.length < 1 && (
+                    <div className="flex w-full max-w-[66rem] gap-4">
+                        <div className="flex w-full justify-center">
+                            <p>You have no fleet.</p>
+                        </div>
+                    </div>
+                    )
+                }
+                { fleetOwned && fleetOwned.length >= 1 && (
+                    <div className="flex w-full max-w-[66rem] gap-4">
+                        <p>You have {fleetOwned.length} fleet.</p>
+                    </div>
+                )}
             </div>
         </div>
     );
