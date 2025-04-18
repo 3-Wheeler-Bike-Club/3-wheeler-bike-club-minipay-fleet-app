@@ -343,8 +343,7 @@ export function Wrapper() {
                                 <Button className="w-full" variant="outline" onClick={() => router.push("/fleet")}>Cancel</Button>
                             </DrawerClose>
                     </div>
-                    <DrawerFooter>
-                        <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="flex flex-col gap-2 items-center justify-center">
                             <div className="flex items-center space-x-2">
                                 <Label htmlFor="fractions-mode">
                                     {isFractionsMode ? <ChartPie className="h-7 w-7 text-yellow-600"/> : <ChartPie className="h-6 w-6 text-muted-foreground"/>}
@@ -362,6 +361,8 @@ export function Wrapper() {
                                 <p>Toggle between buying fractions or a single 3-Wheeler</p>
                             </div>
                         </div>
+                    <DrawerFooter>
+                        
                     </DrawerFooter>
                 </div>
 
