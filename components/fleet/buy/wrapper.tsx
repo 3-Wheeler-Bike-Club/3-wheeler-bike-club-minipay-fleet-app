@@ -265,78 +265,80 @@ export function Wrapper() {
                     </div>
                     
                     <div className="flex flex-col gap-2 py-14 px-4 pb-6">
-                            {/**pay with USDT */}
-                            <Button 
-                                className="w-full" 
-                                disabled={loadingCeloUSD || loadingUSDT} 
-                                onClick={() => {
-                                    if (isFractionsMode) {
-                                        orderFleetFractionsWithUSDT()
-                                    } else {
-                                        orderFleetWithUSDT()
+                            <div className="flex gap-2 w-full">
+                                {/**pay with USDT */}
+                                <Button 
+                                    className="w-1/2" 
+                                    disabled={loadingCeloUSD || loadingUSDT} 
+                                    onClick={() => {
+                                        if (isFractionsMode) {
+                                            orderFleetFractionsWithUSDT()
+                                        } else {
+                                            orderFleetWithUSDT()
+                                        }
+                                    }}
+                                >
+                                    {
+                                        loadingUSDT
+                                        ? (
+                                            <>
+                                                <motion.div
+                                                    initial={{ rotate: 0 }}
+                                                    animate={{ rotate: 360 }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        repeat: Infinity,
+                                                        ease: "linear",
+                                                    }}
+                                                >
+                                                    <Ellipsis/>
+                                                </motion.div>
+                                            </>
+                                        )
+                                        : (
+                                            <>
+                                                Pay with USDT
+                                            </>
+                                        )
                                     }
-                                }}
-                            >
-                                {
-                                    loadingUSDT
-                                    ? (
-                                        <>
-                                            <motion.div
-                                                initial={{ rotate: 0 }}
-                                                animate={{ rotate: 360 }}
-                                                transition={{
-                                                    duration: 1,
-                                                    repeat: Infinity,
-                                                    ease: "linear",
-                                                }}
-                                            >
-                                                <Ellipsis/>
-                                            </motion.div>
-                                        </>
-                                    )
-                                    : (
-                                        <>
-                                            Pay with USDT
-                                        </>
-                                    )
-                                }
-                            </Button>
-                            {/**pay with celoUSD */}
-                            <Button 
-                                className="w-full" 
-                                disabled={loadingCeloUSD || loadingUSDT} 
-                                onClick={() => {
-                                    if (isFractionsMode) {
-                                        orderFleetFractionsWithCeloUSD()
-                                    } else {
-                                        orderFleetWithCeloUSD()
+                                </Button>
+                                {/**pay with celoUSD */}
+                                <Button 
+                                    className="w-1/2" 
+                                    disabled={loadingCeloUSD || loadingUSDT} 
+                                    onClick={() => {
+                                        if (isFractionsMode) {
+                                            orderFleetFractionsWithCeloUSD()
+                                        } else {
+                                            orderFleetWithCeloUSD()
+                                        }
+                                    }}
+                                >
+                                    {
+                                        loadingCeloUSD
+                                        ? (
+                                            <>
+                                                <motion.div
+                                                    initial={{ rotate: 0 }}
+                                                    animate={{ rotate: 360 }}
+                                                    transition={{
+                                                        duration: 1,
+                                                        repeat: Infinity,
+                                                        ease: "linear",
+                                                    }}
+                                                >
+                                                    <Ellipsis/>
+                                                </motion.div>
+                                            </>
+                                        )
+                                        : (
+                                            <>
+                                                Pay with cUSD
+                                            </>
+                                        )
                                     }
-                                }}
-                            >
-                                {
-                                    loadingCeloUSD
-                                    ? (
-                                        <>
-                                            <motion.div
-                                                initial={{ rotate: 0 }}
-                                                animate={{ rotate: 360 }}
-                                                transition={{
-                                                    duration: 1,
-                                                    repeat: Infinity,
-                                                    ease: "linear",
-                                                }}
-                                            >
-                                                <Ellipsis/>
-                                            </motion.div>
-                                        </>
-                                    )
-                                    : (
-                                        <>
-                                            Pay with cUSD
-                                        </>
-                                    )
-                                }
-                            </Button>
+                                </Button>
+                            </div>
                             <DrawerClose asChild>
                                 <Button className="w-full" variant="outline" onClick={() => router.push("/fleet")}>Cancel</Button>
                             </DrawerClose>
