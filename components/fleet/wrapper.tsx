@@ -15,7 +15,7 @@ export function Wrapper() {
     const { address, isConnected } = useAccount();
     console.log(address);
 
-    // read balance of cUSD
+    // read balance of USDT
     const { data: fleetOwned } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,

@@ -10,3 +10,9 @@ export const config = createConfig({
       [celo.id]: http(process.env.ALCHEMY_RPC_URL),
     },
 });
+
+declare module 'wagmi' {
+  interface Register {
+    config: typeof config
+  }
+}

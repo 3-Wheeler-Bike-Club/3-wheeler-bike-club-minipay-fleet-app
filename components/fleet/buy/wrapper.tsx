@@ -1,8 +1,7 @@
 "use client"
 
-//import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAccount } from "wagmi";
+import { useWriteContract } from "wagmi";
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -19,6 +18,13 @@ import { motion } from "framer-motion"
 import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { USDT, USDT_ADAPTER, cUSD, fleetOrderBook } from "@/utils/constants/addresses";
+import { fleetOrderBookAbi } from "@/utils/abi";
+import { erc20Abi } from "viem";
+import { parseUnits } from 'viem'
+import { celo } from "viem/chains";
+ 
+
 
 
 
@@ -26,11 +32,12 @@ export function Wrapper() {
 
     const [amount, setAmount] = useState(1)
     const [fractions, setFractions] = useState(1)
-    const [loading, setLoading] = useState(false)
+    const [loadingUSDT, setLoadingUSDT] = useState(false)
+    const [loadingCeloUSD, setLoadingCeloUSD] = useState(false)
     const [isFractionsMode, setIsFractionsMode] = useState(true)
 
     const router = useRouter()
-    const { isConnected } = useAccount()
+    const { writeContract, writeContractAsync } = useWriteContract()
 
     const increase = () => setAmount((prev) => prev + 1);
     const decrease = () => setAmount((prev) => (prev > 1 ? prev - 1 : 1));
@@ -48,15 +55,144 @@ export function Wrapper() {
     const decreaseFractions = () => setFractions((prev) => (prev > 1 ? prev - 1 : 1));
 
     
-    
-    
-    /*
-    useEffect(() => {
-        if (!isConnected) {
-            router.replace("/")
-        }
-    }, [isConnected, router])
-    */
+   
+
+
+
+    async function orderFleetWithUSDT() {    
+        try {
+            setLoadingUSDT(true)
+            await writeContractAsync({
+                abi: erc20Abi,
+                address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT,
+                chainId: celo.id,
+                feeCurrency: USDT_ADAPTER,
+                functionName: "approve",
+                args: [fleetOrderBook, parseUnits(String(fractions *46), 18) ],
+            },{
+                onSuccess() {
+                    writeContract({
+                        abi: fleetOrderBookAbi,
+                        address: fleetOrderBook,
+                        chainId: celo.id,
+                        feeCurrency: USDT_ADAPTER,
+                        functionName: "orderMultipleFleet",
+                        args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT],
+                    },{
+                        onSuccess() {
+                            setLoadingUSDT(false)
+                        }
+                    });
+                },
+            });
+        } catch (error) {
+            console.log(error)
+            setLoadingUSDT(false)
+        } 
+
+        
+    }
+    async function orderFleetWithCeloUSD() {    
+        try {
+            setLoadingCeloUSD(true)
+            await writeContractAsync({
+                abi: erc20Abi,
+                address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD,
+                chainId: celo.id,
+                feeCurrency: USDT_ADAPTER,
+                functionName: "approve",
+                args: [fleetOrderBook, parseUnits(String(fractions *46), 18) ],
+            },{
+                onSuccess() {
+                    writeContract({
+                        abi: fleetOrderBookAbi,
+                        address: fleetOrderBook,
+                        chainId: celo.id,
+                        feeCurrency: USDT_ADAPTER,
+                        functionName: "orderMultipleFleet",
+                        args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD],
+                    },{
+                        onSuccess() {
+                            setLoadingCeloUSD(false)
+                        }
+                    });
+                },
+            });
+        } catch (error) {
+            console.log(error)
+            setLoadingCeloUSD(false)
+        } 
+
+        
+    }
+
+
+    async function orderFleetFractionsWithUSDT() {    
+        try {
+            setLoadingUSDT(true)
+            await writeContractAsync({
+                abi: erc20Abi,
+                address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT,
+                chainId: celo.id,
+                feeCurrency: USDT_ADAPTER,
+                functionName: "approve",
+                args: [fleetOrderBook, parseUnits(String(fractions *46), 18) ],
+            },{
+                onSuccess() {
+                    writeContract({
+                        abi: fleetOrderBookAbi,
+                        address: fleetOrderBook,
+                        chainId: celo.id,
+                        feeCurrency: USDT_ADAPTER,
+                        functionName: "orderFleet",
+                        args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT],
+                    },{
+                        onSuccess() {
+                            setLoadingUSDT(false)
+                        }
+                    });
+                },
+            });
+        } catch (error) {
+            console.log(error)
+            setLoadingUSDT(false)
+        } 
+
+        
+    }
+    async function orderFleetFractionsWithCeloUSD() {    
+        try {
+            setLoadingCeloUSD(true)
+            await writeContractAsync({
+                abi: erc20Abi,
+                address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD,
+                chainId: celo.id,
+                feeCurrency: USDT_ADAPTER,
+                functionName: "approve",
+                args: [fleetOrderBook, parseUnits(String(fractions *46), 18) ],
+            },{
+                onSuccess() {
+                    writeContract({
+                        abi: fleetOrderBookAbi,
+                        address: fleetOrderBook,
+                        chainId: celo.id,
+                        feeCurrency: USDT_ADAPTER,
+                        functionName: "orderFleet",
+                        args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/ cUSD],
+                    },{
+                        onSuccess() {
+                            setLoadingCeloUSD(false)
+                        }
+                    });
+                },
+            });
+        } catch (error) {
+            console.log(error)
+            setLoadingCeloUSD(false)
+        } 
+
+        
+    }
 
     return (
         <div className="flex flex-col w-full h-full items-center gap-8 p-24 max-md:p-6">
@@ -84,7 +220,7 @@ export function Wrapper() {
                                 ~
                             </div>
                             <div className="text-xl font-bold">
-                                {isFractionsMode ? Math.ceil(fractions * ( 46 )) : Math.ceil(amount * (46 * 50))} <span className="text-muted-foreground">cUSD</span>
+                                {isFractionsMode ? Math.ceil(fractions * ( 46 )) : Math.ceil(amount * (46 * 50))} <span className="text-muted-foreground">USDT</span>
                             </div>
                         </div>  
 
@@ -129,33 +265,78 @@ export function Wrapper() {
                     </div>
                     
                     <div className="flex flex-col gap-2 py-14 px-4 pb-6">
-                            <Button className="w-full" disabled={!amount} /*onClick={purchaseWithPaystack}*/>
-                            {
-                                        loading
-                                        ? (
-                                            <>
-                                                <motion.div
-                                                initial={{ rotate: 0 }} // Initial rotation value (0 degrees)
-                                                animate={{ rotate: 360 }} // Final rotation value (360 degrees)
+                            {/**pay with USDT */}
+                            <Button 
+                                className="w-full" 
+                                disabled={loadingCeloUSD || loadingUSDT} 
+                                onClick={() => {
+                                    if (isFractionsMode) {
+                                        orderFleetFractionsWithUSDT()
+                                    } else {
+                                        orderFleetWithUSDT()
+                                    }
+                                }}
+                            >
+                                {
+                                    loadingUSDT
+                                    ? (
+                                        <>
+                                            <motion.div
+                                                initial={{ rotate: 0 }}
+                                                animate={{ rotate: 360 }}
                                                 transition={{
-                                                    duration: 1, // Animation duration in seconds
-                                                    repeat: Infinity, // Infinity will make it rotate indefinitely
-                                                    ease: "linear", // Animation easing function (linear makes it constant speed)
+                                                    duration: 1,
+                                                    repeat: Infinity,
+                                                    ease: "linear",
                                                 }}
                                             >
-                                                    <Ellipsis/>
-                                                </motion.div>
-                                            </>
-                                        )
-                                        : (
-                                            <>
-                                                Pay with MiniPay
-                                            </>
-                                        )
-                            }
-                            
+                                                <Ellipsis/>
+                                            </motion.div>
+                                        </>
+                                    )
+                                    : (
+                                        <>
+                                            Pay with USDT
+                                        </>
+                                    )
+                                }
                             </Button>
-                            
+                            {/**pay with celoUSD */}
+                            <Button 
+                                className="w-full" 
+                                disabled={loadingCeloUSD || loadingUSDT} 
+                                onClick={() => {
+                                    if (isFractionsMode) {
+                                        orderFleetFractionsWithCeloUSD()
+                                    } else {
+                                        orderFleetWithCeloUSD()
+                                    }
+                                }}
+                            >
+                                {
+                                    loadingCeloUSD
+                                    ? (
+                                        <>
+                                            <motion.div
+                                                initial={{ rotate: 0 }}
+                                                animate={{ rotate: 360 }}
+                                                transition={{
+                                                    duration: 1,
+                                                    repeat: Infinity,
+                                                    ease: "linear",
+                                                }}
+                                            >
+                                                <Ellipsis/>
+                                            </motion.div>
+                                        </>
+                                    )
+                                    : (
+                                        <>
+                                            Pay with cUSD
+                                        </>
+                                    )
+                                }
+                            </Button>
                             <DrawerClose asChild>
                                 <Button className="w-full" variant="outline" onClick={() => router.push("/fleet")}>Cancel</Button>
                             </DrawerClose>
