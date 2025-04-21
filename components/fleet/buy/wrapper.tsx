@@ -199,7 +199,7 @@ export function Wrapper() {
 
         <Drawer open={true}>
       
-            <DrawerContent>
+            <DrawerContent className="h-1/2 max-md:h-full" >
                 <div className="mx-auto w-full max-w-sm pb-6">
                     <DrawerHeader>
                         <DrawerTitle>
