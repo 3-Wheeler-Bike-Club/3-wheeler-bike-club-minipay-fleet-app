@@ -199,22 +199,19 @@ export function Wrapper() {
 
         <Drawer open={true}>
       
-            <DrawerContent className="h-1/2 max-md:h-full" >
+            <DrawerContent>
                 <div className="mx-auto w-full max-w-sm pb-6">
-                    <DrawerHeader>
+                    <DrawerHeader className="max-md:gap-[0.1rem]">
                         <DrawerTitle>
                             {isFractionsMode ? "Purchase 3-Wheeler Fractions" : "Purchase a 3-Wheeler"}
                         </DrawerTitle>
-
-                        
-
-                        <DrawerDescription>Choose the amount of {isFractionsMode ? "fractions" : "3-Wheelers"} to purchase.</DrawerDescription>
+                        <DrawerDescription className="max-md:text-[0.9rem]">Choose the amount of {isFractionsMode ? "fractions" : "3-Wheelers"} to purchase.</DrawerDescription>
                     </DrawerHeader>
-                    <div className="flex flex-col gap-8 p-4 pb-0">
+                    <div className="flex flex-col gap-2 p-4 pb-0">
                         
                         <div className="flex items-center justify-center space-x-2">
                             <div>
-                                <Image src="/images/kekeHero.svg" alt="3-Wheeler" width={100} height={100} />
+                                <Image className="max-md:w-[80px] max-md:h-[80px]" src="/images/kekeHero.svg" alt="3-Wheeler" width={100} height={100} />
                             </div>
                             <div className="text-xl font-bold">
                                 ~
@@ -241,11 +238,11 @@ export function Wrapper() {
                                 <div className="flex items-center justify-center space-x-2">
                                     <div className="flex-1 text-center">
                                         
-                                        <div className="text-7xl font-bold tracking-tighter">
+                                        <div className="text-7xl max-md:text-5xl font-bold tracking-tighter">
                                         {isFractionsMode ? fractions : amount}
                                         </div>
-                                        <div className="text-[0.70rem] uppercase text-muted-foreground">
-                                        No. of {isFractionsMode ? "Fractions" : "3-Wheelers"}
+                                        <div className="text-[0.70rem] max-md:text-[0.6rem] uppercase text-muted-foreground">
+                                            No. of {isFractionsMode ? "Fractions" : "3-Wheelers"}
                                         </div>
                                     </div>
                                 </div>
