@@ -1,6 +1,6 @@
 "use client"
 
-import { Caravan, HandCoins } from "lucide-react";
+import { Caravan, HandCoins, OctagonMinus } from "lucide-react";
 import { Menu } from "../top/menu"
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
@@ -54,7 +54,7 @@ export function Wrapper() {
                 </div>
             </div>
 
-            <div className="flex w-full justify-center">
+            <div className="flex w-full h-full justify-center">
                 {
                     !fleetOwned && (
                         <div className="flex w-full max-w-[66rem] gap-4">
@@ -65,9 +65,11 @@ export function Wrapper() {
                     )
                 }
                 {fleetOwned && fleetOwned.length < 1 && (
-                    <div className="flex w-full max-w-[66rem] gap-4">
-                        <div className="flex w-full justify-center">
-                            <p>You have no fleet.</p>
+                    <div className="flex w-full h-full max-w-[66rem] gap-4">
+                        <div className="flex flex-col w-full h-full items-center pt-36 max-md:pt-18 gap-4">
+                            <OctagonMinus className="h-40 w-40 max-md:h-30 max-md:w-30 text-yellow-500" />
+                            <p className="text-2xl max-md:text-xl text-center font-bold">Your fleet is empty.</p>
+                            <p className="text-sm max-md:text-xs text-center text-muted-foreground">Get fractional or full ownership of a 3-wheeler to start earning.</p>
                         </div>
                     </div>
                     )
