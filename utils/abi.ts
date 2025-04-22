@@ -5,12 +5,97 @@ export const fleetOrderBookAbi = [
     "stateMutability": "nonpayable"
   },
   {
+    "name": "BulkUpdateLimitExceeded",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "DuplicateIds",
+    "type": "error",
+    "inputs": []
+  },
+  {
     "name": "EnforcedPause",
     "type": "error",
     "inputs": []
   },
   {
     "name": "ExpectedPause",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "FractionExceedsMax",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "IdDoesNotExist",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "InsufficientBalance",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "InvalidAmount",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "InvalidFractionAmount",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "InvalidId",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "InvalidPrice",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "InvalidStateTransition",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "InvalidStatus",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "InvalidTokenAddress",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "MaxFleetOrderExceeded",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "MaxFleetOrderNotIncreased",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "MaxFleetOrderPerAddressExceeded",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "NoNativeTokenAccepted",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "NotEnoughTokens",
     "type": "error",
     "inputs": []
   },
@@ -51,6 +136,21 @@ export const fleetOrderBookAbi = [
         "internalType": "address"
       }
     ]
+  },
+  {
+    "name": "TokenAlreadyAdded",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "TokenNotAccepted",
+    "type": "error",
+    "inputs": []
+  },
+  {
+    "name": "TokenNotAdded",
+    "type": "error",
+    "inputs": []
   },
   {
     "name": "Approval",
@@ -154,13 +254,19 @@ export const fleetOrderBookAbi = [
     "anonymous": false
   },
   {
-    "name": "FleetOrderFulfilled",
+    "name": "FleetOrderStatusChanged",
     "type": "event",
     "inputs": [
       {
         "name": "id",
         "type": "uint256",
         "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "status",
+        "type": "uint256",
+        "indexed": false,
         "internalType": "uint256"
       }
     ],
@@ -380,19 +486,6 @@ export const fleetOrderBookAbi = [
     "stateMutability": "view"
   },
   {
-    "name": "TOKEN_DECIMALS",
-    "type": "function",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
     "name": "addERC20",
     "type": "function",
     "inputs": [
@@ -533,7 +626,26 @@ export const fleetOrderBookAbi = [
     "stateMutability": "view"
   },
   {
-    "name": "fulfillFleetOrder",
+    "name": "fleetOrderStatus",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "name": "getFleetOrderStatus",
     "type": "function",
     "inputs": [
       {
@@ -542,8 +654,14 @@ export const fleetOrderBookAbi = [
         "internalType": "uint256"
       }
     ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
+    "outputs": [
+      {
+        "name": "",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "name": "getFleetOwned",
@@ -560,25 +678,6 @@ export const fleetOrderBookAbi = [
         "name": "",
         "type": "uint256[]",
         "internalType": "uint256[]"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "name": "isFleetOrderFulfilled",
-    "type": "function",
-    "inputs": [
-      {
-        "name": "id",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool",
-        "internalType": "bool"
       }
     ],
     "stateMutability": "view"
@@ -719,6 +818,24 @@ export const fleetOrderBookAbi = [
     "name": "renounceOwnership",
     "type": "function",
     "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "name": "setBulkFleetOrderStatus",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "ids",
+        "type": "uint256[]",
+        "internalType": "uint256[]"
+      },
+      {
+        "name": "status",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
