@@ -9,6 +9,7 @@ import { useAccount, useReadContract } from 'wagmi'
 import { useRouter } from "next/navigation";
 import { fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abi";
+import { History } from "./history";
 
 export function Wrapper() {
 
@@ -41,7 +42,7 @@ export function Wrapper() {
 
             <div className="flex w-full items-center justify-center">
                 <div className="flex w-full max-w-[66rem] gap-4">
-                    <div className="flex w-full justify-end">
+                    <div className="flex w-full gap-2 justify-end">
                         <Button 
                             disabled={!isConnected}
                             className="max-w-fit h-12 rounded-xl"
@@ -50,6 +51,11 @@ export function Wrapper() {
                             <HandCoins />
                             <p>Buy 3-Wheeler</p>
                         </Button>
+                        {
+                            fleetOwned && fleetOwned.length >= 1 && (
+                                <History/>
+                            )
+                        }
                     </div>
                 </div>
             </div>

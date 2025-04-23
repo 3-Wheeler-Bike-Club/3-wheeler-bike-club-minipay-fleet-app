@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useWriteContract } from "wagmi";
+import { useReadContract, useWriteContract } from "wagmi";
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -23,6 +23,7 @@ import { fleetOrderBookAbi } from "@/utils/abi";
 import { erc20Abi } from "viem";
 import { parseUnits } from 'viem'
 import { celo } from "viem/chains";
+import { toast } from "sonner";
  
 
 
@@ -37,11 +38,15 @@ export function Wrapper() {
     const [isFractionsMode, setIsFractionsMode] = useState(true)
 
     const router = useRouter()
+    
     const { writeContract, writeContractAsync } = useWriteContract()
 
+
+
+    //increase and decrease amount...
     const increase = () => setAmount((prev) => prev + 1);
     const decrease = () => setAmount((prev) => (prev > 1 ? prev - 1 : 1));
-
+    //..and fractions
     const increaseFractions = () => {
         setFractions((prev) => {
             const newValue = prev + 1;
@@ -56,6 +61,11 @@ export function Wrapper() {
 
     
    
+    const { data: fleetFractionPrice } = useReadContract({
+        abi: fleetOrderBookAbi,
+        address: fleetOrderBook,
+        functionName: "fleetFractionPrice",
+    })
 
 
 
@@ -68,9 +78,14 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(fractions *46), 18) ],
+                args: [fleetOrderBook, parseUnits(String(fractions * Number(fleetFractionPrice)), 18) ],
             },{
                 onSuccess() {
+                    //approval toast
+                    toast("Approval successful", {
+                        description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
+                        
+                    })
                     writeContract({
                         abi: fleetOrderBookAbi,
                         address: fleetOrderBook,
@@ -80,7 +95,13 @@ export function Wrapper() {
                         args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT],
                     },{
                         onSuccess() {
+                            //success toast
+                            toast("Purchase successful", {
+                                description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
+
+                            })
                             setLoadingUSDT(false)
+                            router.push("/fleet")
                         }
                     });
                 },
@@ -101,9 +122,14 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(fractions *46), 18) ],
+                args: [fleetOrderBook, parseUnits(String(fractions * Number(fleetFractionPrice)), 18) ],
             },{
                 onSuccess() {
+                    //approval toast
+                    toast("Approval successful", {
+                        description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
+                        
+                    })
                     writeContract({
                         abi: fleetOrderBookAbi,
                         address: fleetOrderBook,
@@ -113,7 +139,13 @@ export function Wrapper() {
                         args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD],
                     },{
                         onSuccess() {
+                            //success toast
+                            toast("Purchase successful", {
+                                description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
+
+                            })
                             setLoadingCeloUSD(false)
+                            router.push("/fleet")
                         }
                     });
                 },
@@ -136,9 +168,14 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(fractions *46), 18) ],
+                args: [fleetOrderBook, parseUnits(String(fractions * Number(fleetFractionPrice)), 18) ],
             },{
                 onSuccess() {
+                    //approval toast
+                    toast("Approval successful", {
+                        description: `You can now purchase 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"}`,
+                        
+                    })
                     writeContract({
                         abi: fleetOrderBookAbi,
                         address: fleetOrderBook,
@@ -148,7 +185,13 @@ export function Wrapper() {
                         args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT],
                     },{
                         onSuccess() {
+                            //success toast
+                            toast("Purchase successful", {
+                                description: `You can now view your 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"} in your fleet`,
+
+                            })
                             setLoadingUSDT(false)
+                            router.push("/fleet")
                         }
                     });
                 },
@@ -169,9 +212,15 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(fractions *46), 18) ],
+                args: [fleetOrderBook, parseUnits(String(fractions * Number(fleetFractionPrice)), 18) ],
             },{
                 onSuccess() {
+                    // approval toast
+                    toast("Approval successful", {
+                        description: `You can now purchase 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"}`,
+                        
+                    })
+                    //write contract
                     writeContract({
                         abi: fleetOrderBookAbi,
                         address: fleetOrderBook,
@@ -181,7 +230,14 @@ export function Wrapper() {
                         args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/ cUSD],
                     },{
                         onSuccess() {
+                            //success toast
+                            toast("Purchase successful", {
+                                description: `You can now view your 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"} in your fleet`,
+
+                            })
+
                             setLoadingCeloUSD(false)
+                            router.push("/fleet")
                         }
                     });
                 },
@@ -217,7 +273,7 @@ export function Wrapper() {
                                 ~
                             </div>
                             <div className="text-xl font-bold">
-                                {isFractionsMode ? Math.ceil(fractions * ( 46 )) : Math.ceil(amount * (46 * 50))} <span className="text-muted-foreground">USDT</span>
+                                {isFractionsMode ? Math.ceil(fractions * ( Number(fleetFractionPrice) )) : Math.ceil(amount * (Number(fleetFractionPrice) * 50))} <span className="text-muted-foreground">USD</span>
                             </div>
                         </div>  
 
