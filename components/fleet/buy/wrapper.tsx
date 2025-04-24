@@ -102,6 +102,10 @@ export function Wrapper() {
                             })
                             setLoadingUSDT(false)
                             router.push("/fleet")
+                        },
+                        onError(error) {
+                            console.log(error)
+                            setLoadingUSDT(false)
                         }
                     });
                 },
@@ -149,6 +153,10 @@ export function Wrapper() {
                         }
                     });
                 },
+                onError(error) {
+                    console.log(error)
+                    setLoadingCeloUSD(false)
+                }
             });
         } catch (error) {
             console.log(error)
@@ -192,6 +200,10 @@ export function Wrapper() {
                             })
                             setLoadingUSDT(false)
                             router.push("/fleet")
+                        },
+                        onError(error) {
+                            console.log(error)
+                            setLoadingUSDT(false)
                         }
                     });
                 },
@@ -238,6 +250,10 @@ export function Wrapper() {
 
                             setLoadingCeloUSD(false)
                             router.push("/fleet")
+                        },
+                        onError(error) {
+                            console.log(error)
+                            setLoadingCeloUSD(false)
                         }
                     });
                 },
