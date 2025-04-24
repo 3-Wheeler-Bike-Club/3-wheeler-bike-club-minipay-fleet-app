@@ -1,6 +1,6 @@
 "use client"
 
-import { Caravan, HandCoins, OctagonMinus } from "lucide-react";
+import { Caravan, HandCoins, OctagonMinus, Warehouse } from "lucide-react";
 import { Menu } from "../top/menu"
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
@@ -10,6 +10,9 @@ import { useRouter } from "next/navigation";
 import { fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abi";
 import { History } from "./history";
+import { CarouselContent, CarouselNext, CarouselPrevious } from "../ui/carousel";
+import { Carousel } from "../ui/carousel";
+import { Id } from "./id";
 
 export function Wrapper() {
 
@@ -82,7 +85,24 @@ export function Wrapper() {
                 }
                 { fleetOwned && fleetOwned.length >= 1 && (
                     <div className="flex w-full max-w-[66rem] gap-4">
-                        <p>You have {fleetOwned.length} fleet.</p>
+                        <Carousel className="w-full max-w-xs">
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center justify-center gap-2">
+                                <Warehouse className="h-5 w-5"/>
+                                <span className="font-semibold text-xl">3-Wheelers:</span>
+                                </div>          
+                                <span className="text-right text-xl">{fleetOwned.length}</span>
+                            </div>
+                            
+                            <CarouselContent>
+                                
+                                {Array.from(fleetOwned).map((fleet) => (
+                                <Id key={fleet} fleet={fleet} />
+                                ))}
+                            </CarouselContent>
+                            <CarouselPrevious />
+                            <CarouselNext />
+                        </Carousel>
                     </div>
                 )}
             </div>
