@@ -5,7 +5,7 @@ import { Menu } from "../top/menu"
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 
-import { useAccount, useReadContract } from 'wagmi'
+import { useAccount, useBlockNumber, useReadContract } from 'wagmi'
 import { useRouter } from "next/navigation";
 import { fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abi";
@@ -13,20 +13,26 @@ import { History } from "./history";
 import { CarouselContent, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import { Carousel } from "../ui/carousel";
 import { Id } from "./id";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 export function Wrapper() {
 
     const { address, isConnected } = useAccount();
     console.log(address);
 
-    // read balance of USDT
-    const { data: fleetOwned } = useReadContract({
+    const queryClient = useQueryClient() 
+    const { data: blockNumber } = useBlockNumber({ watch: true }) 
+
+    // read balance of fleet owned
+    const { data: fleetOwned, queryKey } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
         functionName: "getFleetOwned",
         args: [ address! ],
     });
-    
+    useEffect(() => { 
+        queryClient.invalidateQueries({ queryKey }) 
+    }, [blockNumber, queryClient, queryKey]) 
     const router = useRouter();
     
     return (

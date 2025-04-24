@@ -74,7 +74,7 @@ export function Wrapper() {
             setLoadingUSDT(true)
             await writeContractAsync({
                 abi: erc20Abi,
-                address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT,
+                address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
@@ -92,7 +92,7 @@ export function Wrapper() {
                         chainId: celo.id,
                         feeCurrency: USDT_ADAPTER,
                         functionName: "orderMultipleFleet",
-                        args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT],
+                        args: [BigInt(fractions), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
                     },{
                         onSuccess() {
                             //success toast
@@ -164,7 +164,7 @@ export function Wrapper() {
             setLoadingUSDT(true)
             await writeContractAsync({
                 abi: erc20Abi,
-                address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT,
+                address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
@@ -182,7 +182,7 @@ export function Wrapper() {
                         chainId: celo.id,
                         feeCurrency: USDT_ADAPTER,
                         functionName: "orderFleet",
-                        args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/USDT],
+                        args: [BigInt(fractions), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
                     },{
                         onSuccess() {
                             //success toast
