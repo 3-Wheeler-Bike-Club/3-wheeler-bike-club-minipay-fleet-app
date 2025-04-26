@@ -90,27 +90,31 @@ export function Wrapper() {
                     )
                 }
                 { fleetOwned && fleetOwned.length >= 1 && (
-                    <div className="flex w-full max-w-[66rem] gap-4">
-                        <Carousel className="w-full max-w-xs">
-                            <div className="flex justify-between items-center">
-                                <div className="flex items-center justify-center gap-2">
-                                <Warehouse className="h-5 w-5"/>
-                                <span className="font-semibold text-xl">3-Wheelers:</span>
-                                </div>          
-                                <span className="text-right text-xl">{fleetOwned.length}</span>
+                    <div className="max-w-[66rem] w-full flex flex-col gap-6">
+                        <Carousel className="w-full ">
+                            <div className="flex flex-col w-full mt-6 mb-2 px-4">
+                                <div className="flex flex-col">
+                                    <span className="text-xs text-muted-foreground">Total Fleet</span>            
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <Warehouse className="h-6 w-6 text-primary"/>~
+                                    <span className="text-2xl font-bold">{fleetOwned.length}</span>
+                                </div>
                             </div>
                             
                             <CarouselContent>
-                                
                                 {Array.from(fleetOwned).map((fleet) => (
                                 <Id key={fleet} fleet={fleet} />
                                 ))}
                             </CarouselContent>
-                            <CarouselPrevious />
-                            <CarouselNext />
+                            <div className="flex absolute top-14 right-14">
+                                <CarouselPrevious variant="default"/>
+                                <CarouselNext variant="default" />
+                            </div>
                         </Carousel>
                     </div>
                 )}
+                
             </div>
         </div>
     );
