@@ -36,7 +36,7 @@ export default function RootLayout({
         <WagmiContext>
           <MiniAppContext>
             {children}
-            <Toaster />
+            <Toaster expand={true} richColors />
           </MiniAppContext>
         </WagmiContext>
       </body>

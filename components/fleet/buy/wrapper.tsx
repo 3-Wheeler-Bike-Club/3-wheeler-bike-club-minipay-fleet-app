@@ -82,7 +82,7 @@ export function Wrapper() {
             },{
                 onSuccess() {
                     //approval toast
-                    toast("Approval successful", {
+                    toast.info("Approval successful", {
                         description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
                         
                     })
@@ -96,7 +96,7 @@ export function Wrapper() {
                     },{
                         onSuccess() {
                             //success toast
-                            toast("Purchase successful", {
+                            toast.success("Purchase successful", {
                                 description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
 
                             })
@@ -130,7 +130,7 @@ export function Wrapper() {
             },{
                 onSuccess() {
                     //approval toast
-                    toast("Approval successful", {
+                    toast.info("Approval successful", {
                         description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
                         
                     })
@@ -144,7 +144,7 @@ export function Wrapper() {
                     },{
                         onSuccess() {
                             //success toast
-                            toast("Purchase successful", {
+                            toast.success("Purchase successful", {
                                 description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
 
                             })
@@ -180,7 +180,7 @@ export function Wrapper() {
             },{
                 onSuccess() {
                     //approval toast
-                    toast("Approval successful", {
+                    toast.info("Approval successful", {
                         description: `You can now purchase 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"}`,
                         
                     })
@@ -194,7 +194,7 @@ export function Wrapper() {
                     },{
                         onSuccess() {
                             //success toast
-                            toast("Purchase successful", {
+                            toast.success("Purchase successful", {
                                 description: `You can now view your 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"} in your fleet`,
 
                             })
@@ -228,7 +228,7 @@ export function Wrapper() {
             },{
                 onSuccess() {
                     // approval toast
-                    toast("Approval successful", {
+                    toast.info("Approval successful", {
                         description: `You can now purchase 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"}`,
                         
                     })
@@ -243,9 +243,8 @@ export function Wrapper() {
                     },{
                         onSuccess() {
                             //success toast
-                            toast("Purchase successful", {
+                            toast.success("Purchase successful", {
                                 description: `You can now view your 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"} in your fleet`,
-
                             })
 
                             setLoadingCeloUSD(false)
