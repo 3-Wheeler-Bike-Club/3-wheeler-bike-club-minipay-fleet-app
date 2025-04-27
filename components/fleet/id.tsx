@@ -31,6 +31,12 @@ export function Id( {fleet}: IdProps ) {
     })
 
 
+    const { data: fleetOrderStatus } = useReadContract({
+        address: fleetOrderBook,
+        abi: fleetOrderBookAbi,
+        functionName: "getFleetOrderStatus",
+        args: [BigInt(Number(fleet))],
+    })
 
     
     return (
@@ -44,12 +50,12 @@ export function Id( {fleet}: IdProps ) {
                     </Card>
                     <div className="flex flex-col gap-1 mt-2 text-sm">
                         <div className="flex justify-between items-center">
-                            <span className="font-semibold">Vin:</span>
-                            <span className="text-right"></span>
+                            <span className="font-semibold">Fleet ID:</span>
+                            <span className="text-right">{Number(fleet)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                            <span className="font-semibold">License Plate:</span>
-                            <span className="text-right"></span>
+                            <span className="font-semibold">Fleet Status:</span>
+                            <span className="text-right">{fleetOrderStatus}</span>
                         </div>
                         {
                             isfleetFractioned && (
