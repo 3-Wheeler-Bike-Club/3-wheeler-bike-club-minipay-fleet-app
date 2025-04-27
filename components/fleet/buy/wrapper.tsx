@@ -77,7 +77,7 @@ export function Wrapper() {
         fleetFractionPriceQueryClient.invalidateQueries({ queryKey: fleetFractionPriceQueryKey }) 
     }, [blockNumber, fleetFractionPriceQueryClient, fleetFractionPriceQueryKey]) 
 
-    const { data: allowanceUSDT, queryKey: allowanceDollarQueryKey} = useReadContract({
+    const { data: allowanceUSDT, isLoading: allowanceDollarLoading, queryKey: allowanceDollarQueryKey} = useReadContract({
         abi: erc20Abi,
         address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
         functionName: "allowance",
@@ -88,7 +88,7 @@ export function Wrapper() {
     }, [blockNumber, allowanceDollarQueryClient, allowanceDollarQueryKey]) 
 
 
-    const { data: allowanceCeloUSD, queryKey: allowanceCeloDollarQueryKey } = useReadContract({
+    const { data: allowanceCeloUSD, isLoading: allowanceCeloDollarLoading, queryKey: allowanceCeloDollarQueryKey } = useReadContract({
         abi: erc20Abi,
         address: cUSD,
         functionName: "allowance",
@@ -409,7 +409,14 @@ export function Wrapper() {
                                         : (
                                             <>
                                                 {
-                                                    allowanceUSDT && allowanceUSDT > 0 ? "Pay with USDT" : "Approve USDT"   
+                                                    allowanceDollarLoading ? (
+                                                       <></>
+                                                    )  
+                                                    : (
+                                                        <>
+                                                            {allowanceUSDT && allowanceUSDT > 0 ? "Pay with USDT" : "Approve USDT" }
+                                                        </>
+                                                    )
                                                 }
                                             </>
                                         )
@@ -454,9 +461,21 @@ export function Wrapper() {
                                         )
                                         : (
                                             <>
+                                            <>
                                                 {
-                                                    allowanceCeloUSD && allowanceCeloUSD > 0 ? "Pay with cUSD" : "Approve cUSD"
+                                                    allowanceCeloDollarLoading ? (
+                                                       <></>
+                                                    )  
+                                                    : (
+                                                        <>
+                                                            {
+                                                                allowanceCeloUSD && allowanceCeloUSD > 0 ? "Pay with cUSD" : "Approve cUSD"
+                                                            }
+                                                        </>
+                                                    )
                                                 }
+                                            </>
+                                                
                                             </>
                                         )
                                     }
