@@ -65,7 +65,11 @@ export function Id( {fleet}: IdProps ) {
                             isfleetFractioned && (
                                 <div className="flex justify-between items-center">
                                     <span className="font-semibold">Shares:</span>
-                                    <span className="text-right">{totalFractions}</span>
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-right font-semibold">{totalFractions}</span>
+                                        <span className="text-muted-foreground"> / </span>
+                                        <span className="text-muted-foreground italic">50</span>
+                                    </div>
                                 </div>
                             )
                         }
