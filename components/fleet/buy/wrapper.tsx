@@ -80,11 +80,10 @@ export function Wrapper() {
                 functionName: "approve",
                 args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
             },{
-                onSuccess () {
+                onSettled() {
                     //approval toast
                     toast.info("Approval successful", {
                         description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
-                        
                     })
                     writeContractAsync({
                         abi: fleetOrderBookAbi,
@@ -94,7 +93,7 @@ export function Wrapper() {
                         functionName: "orderMultipleFleet",
                         args: [BigInt(amount), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
                     },{
-                        onSuccess() {
+                        onSettled() {
                             //success toast
                             toast.success("Purchase successful", {
                                 description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
@@ -138,11 +137,10 @@ export function Wrapper() {
                 functionName: "approve",
                 args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
             },{
-                onSuccess() {
+                onSettled() {
                     //approval toast
                     toast.info("Approval successful", {
                         description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
-                        
                     })
                     writeContractAsync({
                         abi: fleetOrderBookAbi,
@@ -152,7 +150,7 @@ export function Wrapper() {
                         functionName: "orderMultipleFleet",
                         args: [BigInt(amount), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD],
                     },{
-                        onSuccess() {
+                        onSettled() {
                             //success toast
                             toast.success("Purchase successful", {
                                 description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
@@ -197,11 +195,10 @@ export function Wrapper() {
                 functionName: "approve",
                 args: [fleetOrderBook, parseUnits(String(shares * Number(fleetFractionPrice)), 18) ],
             },{
-                onSuccess() {
+                onSettled() {
                     //approval toast
                     toast.info("Approval successful", {
                         description: `You can now purchase 3-Wheeler ${shares == 50 ? "3-Wheeler" : `${shares > 1 ? "fractions" : "fraction"}`}`,
-                        
                     })
                     writeContractAsync({
                         abi: fleetOrderBookAbi,
@@ -211,7 +208,7 @@ export function Wrapper() {
                         functionName: "orderFleet",
                         args: [BigInt(shares), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
                     },{
-                        onSuccess() {
+                        onSettled() {
                             //success toast
                             toast.success("Purchase successful", {
                                 description: `You can now view your 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`} in your fleet`,
@@ -255,11 +252,10 @@ export function Wrapper() {
                 functionName: "approve",
                 args: [fleetOrderBook, parseUnits(String(shares * Number(fleetFractionPrice)), 18) ],
             },{
-                onSuccess() {
+                onSettled() {
                     // approval toast
                     toast.info("Approval successful", {
                         description: `You can now purchase 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`}`,
-                        
                     })
                     //write contract
                     writeContractAsync({
@@ -270,7 +266,7 @@ export function Wrapper() {
                         functionName: "orderFleet",
                         args: [BigInt(shares), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/ cUSD],
                     },{
-                        onSuccess() {
+                        onSettled() {
                             //success toast
                             toast.success("Purchase successful", {
                                 description: `You can now view your 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`} in your fleet`,
