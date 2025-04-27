@@ -80,13 +80,13 @@ export function Wrapper() {
                 functionName: "approve",
                 args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
             },{
-                onSuccess() {
+                onSuccess () {
                     //approval toast
                     toast.info("Approval successful", {
                         description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
                         
                     })
-                    writeContract({
+                    writeContractAsync({
                         abi: fleetOrderBookAbi,
                         address: fleetOrderBook,
                         chainId: celo.id,
@@ -144,7 +144,7 @@ export function Wrapper() {
                         description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
                         
                     })
-                    writeContract({
+                    writeContractAsync({
                         abi: fleetOrderBookAbi,
                         address: fleetOrderBook,
                         chainId: celo.id,
@@ -203,7 +203,7 @@ export function Wrapper() {
                         description: `You can now purchase 3-Wheeler ${shares == 50 ? "3-Wheeler" : `${shares > 1 ? "fractions" : "fraction"}`}`,
                         
                     })
-                    writeContract({
+                    writeContractAsync({
                         abi: fleetOrderBookAbi,
                         address: fleetOrderBook,
                         chainId: celo.id,
@@ -262,7 +262,7 @@ export function Wrapper() {
                         
                     })
                     //write contract
-                    writeContract({
+                    writeContractAsync({
                         abi: fleetOrderBookAbi,
                         address: fleetOrderBook,
                         chainId: celo.id,
