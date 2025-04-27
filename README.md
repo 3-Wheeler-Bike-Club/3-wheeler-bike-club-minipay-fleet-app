@@ -1,6 +1,6 @@
 # 3WB MiniPay Fleet App
 
-A decentralized client application built on Next.js 15 that enables investors to participate in fractional and full ownership of three-wheeler fleets on the Celo blockchain using the Celo MiniPay wallet.
+A decentralized client application built on Next.js 15 that enables investors to participate in fractional and full ownership of lease-to-own(work & pay) three-wheeler fleets & earn a decent ROI on the Celo blockchain using the Celo MiniPay wallet.
 
 ## 🚀 Features
 
