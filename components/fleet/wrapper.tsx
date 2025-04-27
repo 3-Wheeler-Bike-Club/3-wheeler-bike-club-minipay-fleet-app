@@ -120,7 +120,7 @@ export function Wrapper() {
                                     <Warehouse className="h-6 w-6 text-primary"/>~
                                     <div className="flex items-center gap-1">
                                         <span className="text-sm text-muted-foreground">{current} /</span>
-                                        <span className="text-2xl font-bold">{count}</span>
+                                        <span className="text-2xl font-bold">{fleetOwned.length}</span>
                                     </div>
                                 </div>
                             </div>
