@@ -18,7 +18,7 @@ import { motion } from "framer-motion"
 import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { USDT, USDT_ADAPTER, cUSD, fleetOrderBook } from "@/utils/constants/addresses";
+import { /*USDT,*/ USDT_ADAPTER, cUSD, fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abi";
 import { erc20Abi } from "viem";
 import { parseUnits } from 'viem'
@@ -78,7 +78,7 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(fractions * Number(fleetFractionPrice)), 18) ],
+                args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
             },{
                 onSuccess() {
                     //approval toast
@@ -92,7 +92,7 @@ export function Wrapper() {
                         chainId: celo.id,
                         feeCurrency: USDT_ADAPTER,
                         functionName: "orderMultipleFleet",
-                        args: [BigInt(fractions), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
+                        args: [BigInt(amount), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
                     },{
                         onSuccess() {
                             //success toast
@@ -136,7 +136,7 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(fractions * Number(fleetFractionPrice)), 18) ],
+                args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
             },{
                 onSuccess() {
                     //approval toast
@@ -150,7 +150,7 @@ export function Wrapper() {
                         chainId: celo.id,
                         feeCurrency: USDT_ADAPTER,
                         functionName: "orderMultipleFleet",
-                        args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD],
+                        args: [BigInt(amount), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD],
                     },{
                         onSuccess() {
                             //success toast
@@ -187,7 +187,7 @@ export function Wrapper() {
     }
 
 
-    async function orderFleetFractionsWithUSDT() {    
+    async function orderFleetFractionsWithUSDT( shares: number ) {    
         try {
             setLoadingUSDT(true)
             await writeContractAsync({
@@ -196,12 +196,12 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(fractions * Number(fleetFractionPrice)), 18) ],
+                args: [fleetOrderBook, parseUnits(String(shares * Number(fleetFractionPrice)), 18) ],
             },{
                 onSuccess() {
                     //approval toast
                     toast.info("Approval successful", {
-                        description: `You can now purchase 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"}`,
+                        description: `You can now purchase 3-Wheeler ${shares == 50 ? "3-Wheeler" : `${shares > 1 ? "fractions" : "fraction"}`}`,
                         
                     })
                     writeContract({
@@ -210,12 +210,12 @@ export function Wrapper() {
                         chainId: celo.id,
                         feeCurrency: USDT_ADAPTER,
                         functionName: "orderFleet",
-                        args: [BigInt(fractions), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
+                        args: [BigInt(shares), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
                     },{
                         onSuccess() {
                             //success toast
                             toast.success("Purchase successful", {
-                                description: `You can now view your 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"} in your fleet`,
+                                description: `You can now view your 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`} in your fleet`,
 
                             })
                             setLoadingUSDT(false)
@@ -245,7 +245,7 @@ export function Wrapper() {
 
         
     }
-    async function orderFleetFractionsWithCeloUSD() {    
+    async function orderFleetFractionsWithCeloUSD( shares: number ) {    
         try {
             setLoadingCeloUSD(true)
             await writeContractAsync({
@@ -254,12 +254,12 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(fractions * Number(fleetFractionPrice)), 18) ],
+                args: [fleetOrderBook, parseUnits(String(shares * Number(fleetFractionPrice)), 18) ],
             },{
                 onSuccess() {
                     // approval toast
                     toast.info("Approval successful", {
-                        description: `You can now purchase 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"}`,
+                        description: `You can now purchase 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`}`,
                         
                     })
                     //write contract
@@ -269,12 +269,12 @@ export function Wrapper() {
                         chainId: celo.id,
                         feeCurrency: USDT_ADAPTER,
                         functionName: "orderFleet",
-                        args: [BigInt(fractions), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/ cUSD],
+                        args: [BigInt(shares), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/ cUSD],
                     },{
                         onSuccess() {
                             //success toast
                             toast.success("Purchase successful", {
-                                description: `You can now view your 3-Wheeler ${fractions > 1 ? "fractions" : "fraction"} in your fleet`,
+                                description: `You can now view your 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`} in your fleet`,
                             })
 
                             setLoadingCeloUSD(false)
@@ -380,9 +380,13 @@ export function Wrapper() {
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
                                         if (isFractionsMode) {
-                                            orderFleetFractionsWithUSDT()
+                                            orderFleetFractionsWithUSDT(fractions)
                                         } else {
-                                            orderFleetWithUSDT()
+                                            if (amount == 1) {
+                                                orderFleetFractionsWithUSDT(50)
+                                            } else {
+                                                orderFleetWithUSDT()
+                                            }
                                         }
                                     }}
                                 >
@@ -416,9 +420,13 @@ export function Wrapper() {
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
                                         if (isFractionsMode) {
-                                            orderFleetFractionsWithCeloUSD()
+                                            orderFleetFractionsWithCeloUSD(fractions)
                                         } else {
-                                            orderFleetWithCeloUSD()
+                                            if (amount == 1) {
+                                                orderFleetFractionsWithCeloUSD(50)
+                                            } else {
+                                                orderFleetWithCeloUSD()
+                                            }
                                         }
                                     }}
                                 >
