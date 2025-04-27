@@ -626,6 +626,25 @@ export const fleetOrderBookAbi = [
     "stateMutability": "view"
   },
   {
+    "name": "fleetFractioned",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
     "name": "fleetOrderStatus",
     "type": "function",
     "inputs": [
@@ -958,7 +977,7 @@ export const fleetOrderBookAbi = [
     "type": "function",
     "inputs": [
       {
-        "name": "id",
+        "name": "",
         "type": "uint256",
         "internalType": "uint256"
       }
