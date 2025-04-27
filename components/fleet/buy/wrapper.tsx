@@ -44,7 +44,9 @@ export function Wrapper() {
     const { writeContract, writeContractAsync } = useWriteContract()
 
     const fleetFractionPriceQueryClient = useQueryClient()
-     const { data: blockNumber } = useBlockNumber({ watch: true }) 
+    const allowanceDollarQueryClient = useQueryClient()
+    const allowanceCeloDollarQueryClient = useQueryClient()
+    const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
 
 
@@ -75,21 +77,27 @@ export function Wrapper() {
         fleetFractionPriceQueryClient.invalidateQueries({ queryKey: fleetFractionPriceQueryKey }) 
     }, [blockNumber, fleetFractionPriceQueryClient, fleetFractionPriceQueryKey]) 
 
-    const { data: allowanceUSDT } = useReadContract({
+    const { data: allowanceUSDT, queryKey: allowanceDollarQueryKey} = useReadContract({
         abi: erc20Abi,
         address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
         functionName: "allowance",
         args: [address!, fleetOrderBook],
     })
-   
+    useEffect(() => { 
+        allowanceDollarQueryClient.invalidateQueries({ queryKey: allowanceDollarQueryKey }) 
+    }, [blockNumber, allowanceDollarQueryClient, allowanceDollarQueryKey]) 
 
-    const { data: allowanceCeloUSD } = useReadContract({
+
+    const { data: allowanceCeloUSD, queryKey: allowanceCeloDollarQueryKey } = useReadContract({
         abi: erc20Abi,
         address: cUSD,
         functionName: "allowance",
         args: [address!, fleetOrderBook],
     })
-    
+    useEffect(() => { 
+        allowanceCeloDollarQueryClient.invalidateQueries({ queryKey: allowanceCeloDollarQueryKey }) 
+    }, [blockNumber, allowanceCeloDollarQueryClient, allowanceCeloDollarQueryKey]) 
+
 
     // approve USDT or CeloUSD (unlimited)
     async function approveUSDT() {
