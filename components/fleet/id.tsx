@@ -3,9 +3,11 @@ import { CarouselItem } from "../ui/carousel"
 import { CardContent } from "../ui/card"
 import { Card } from "../ui/card"
 import Image from "next/image"
-import { useAccount, useReadContract } from "wagmi"
+import { useAccount, useBlockNumber, useReadContract } from "wagmi"
 import { fleetOrderBookAbi } from "@/utils/abi"
 import { fleetOrderBook } from "@/utils/constants/addresses"
+import { useQueryClient } from "@tanstack/react-query"
+import { useEffect } from "react"
 
 
 
@@ -17,12 +19,19 @@ export function Id( {fleet}: IdProps ) {
 
     const { address } = useAccount()
 
-    const { data: isfleetFractioned } = useReadContract({
+    const isfleetFractionedQueryClient = useQueryClient()
+    const { data: blockNumber } = useBlockNumber({ watch: true }) 
+
+    const { data: isfleetFractioned, queryKey: isfleetFractionedQueryKey } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
         functionName: "fleetFractioned",
         args: [BigInt(Number(fleet))],
     })
+    useEffect(() => { 
+        isfleetFractionedQueryClient.invalidateQueries({ queryKey: isfleetFractionedQueryKey }) 
+    }, [blockNumber, isfleetFractionedQueryClient, isfleetFractionedQueryKey]) 
+
 
     const { data: fleetShares } = useReadContract({
         address: fleetOrderBook,
