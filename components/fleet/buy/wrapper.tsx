@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { useAccount, useBlockNumber, useReadContract, useWriteContract } from "wagmi";
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -12,7 +12,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
@@ -23,6 +23,7 @@ import { fleetOrderBookAbi } from "@/utils/abi";
 import { erc20Abi, maxUint256 } from "viem";
 import { celo } from "viem/chains";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
  
 
 
@@ -41,6 +42,9 @@ export function Wrapper() {
     const router = useRouter()
     
     const { writeContract, writeContractAsync } = useWriteContract()
+
+    const fleetFractionPriceQueryClient = useQueryClient()
+     const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
 
 
@@ -62,11 +66,14 @@ export function Wrapper() {
 
     
    
-    const { data: fleetFractionPrice } = useReadContract({
+    const { data: fleetFractionPrice, queryKey: fleetFractionPriceQueryKey } = useReadContract({
         abi: fleetOrderBookAbi,
         address: fleetOrderBook,
         functionName: "fleetFractionPrice",
     })
+    useEffect(() => { 
+        fleetFractionPriceQueryClient.invalidateQueries({ queryKey: fleetFractionPriceQueryKey }) 
+    }, [blockNumber, fleetFractionPriceQueryClient, fleetFractionPriceQueryKey]) 
 
     const { data: allowanceUSDT } = useReadContract({
         abi: erc20Abi,
@@ -74,7 +81,7 @@ export function Wrapper() {
         functionName: "allowance",
         args: [address!, fleetOrderBook],
     })
-
+   
 
     const { data: allowanceCeloUSD } = useReadContract({
         abi: erc20Abi,
@@ -82,7 +89,7 @@ export function Wrapper() {
         functionName: "allowance",
         args: [address!, fleetOrderBook],
     })
-
+    
 
     // approve USDT or CeloUSD (unlimited)
     async function approveUSDT() {
