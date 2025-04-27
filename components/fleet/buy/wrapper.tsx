@@ -156,7 +156,6 @@ export function Wrapper() {
                             //success toast
                             toast.success("Purchase successful", {
                                 description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
-
                             })
                             setLoadingCeloUSD(false)
                             router.push("/fleet")
@@ -373,10 +372,10 @@ export function Wrapper() {
                     </div>
                     
                     <div className="flex flex-col gap-2 py-14 px-4 pb-6">
-                            <div className="flex gap-2 w-full">
+                            <div className="flex w-full justify-between">
                                 {/**pay with USDT */}
                                 <Button 
-                                    className="w-1/2" 
+                                    className="w-48/100" 
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
                                         if (isFractionsMode) {
@@ -416,7 +415,7 @@ export function Wrapper() {
                                 </Button>
                                 {/**pay with celoUSD */}
                                 <Button 
-                                    className="w-1/2" 
+                                    className="w-48/100" 
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
                                         if (isFractionsMode) {
