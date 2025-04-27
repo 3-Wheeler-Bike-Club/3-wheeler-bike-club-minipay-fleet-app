@@ -371,7 +371,7 @@ export function Wrapper() {
                             <div className="flex w-full justify-between">
                                 {/**pay with USDT */}
                                 <Button 
-                                    className={ `${allowanceUSDT && allowanceUSDT > 0 ? "w-48/100" : "w-48/100 bg-gradient-to-r from-yellow-400 to-green-500 hover:from-yellow-500 hover:to-green-600"}` } 
+                                    className={ `${allowanceUSDT && allowanceUSDT > 0 ? "w-48/100 hover:bg-yellow-600" : "w-48/100 bg-gradient-to-r from-yellow-400 to-green-500 hover:from-yellow-500 hover:to-green-600"}` } 
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
                                         if (allowanceUSDT && allowanceUSDT > 0) {
@@ -417,7 +417,7 @@ export function Wrapper() {
                                 </Button>
                                 {/**pay with celoUSD */}
                                 <Button 
-                                    className={` ${allowanceCeloUSD && allowanceCeloUSD > 0 ? "w-48/100" : "w-48/100 bg-gradient-to-r from-yellow-400 to-green-500 hover:from-yellow-500 hover:to-green-600"}` }
+                                    className={` ${allowanceCeloUSD && allowanceCeloUSD > 0 ? "w-48/100 hover:bg-yellow-600" : "w-48/100 bg-gradient-to-r from-yellow-400 to-green-500 hover:from-yellow-500 hover:to-green-600"}` }
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
                                         if (allowanceCeloUSD && allowanceCeloUSD > 0) {
