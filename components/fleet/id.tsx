@@ -3,7 +3,7 @@ import { CarouselItem } from "../ui/carousel"
 import { CardContent } from "../ui/card"
 import { Card } from "../ui/card"
 import Image from "next/image"
-import { useReadContract } from "wagmi"
+import { useAccount, useReadContract } from "wagmi"
 import { fleetOrderBookAbi } from "@/utils/abi"
 import { fleetOrderBook } from "@/utils/constants/addresses"
 
@@ -15,11 +15,20 @@ interface IdProps {
 
 export function Id( {fleet}: IdProps ) {
 
+    const { address } = useAccount()
+
     const { data: isfleetFractioned } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
         functionName: "fleetFractioned",
         args: [BigInt(Number(fleet))],
+    })
+
+    const { data: fleetShares } = useReadContract({
+        address: fleetOrderBook,
+        abi: fleetOrderBookAbi,
+        functionName: "balanceOf",
+        args: [address as `0x${string}`, BigInt(Number(fleet))],
     })
 
 
@@ -66,7 +75,9 @@ export function Id( {fleet}: IdProps ) {
                                 <div className="flex justify-between items-center">
                                     <span className="font-semibold">Shares:</span>
                                     <div className="flex items-center gap-1">
-                                        <span className="text-right font-semibold">{totalFractions}</span>
+                                        <span className="text-right font-bold">{fleetShares}</span>
+                                        <span className="text-muted-foreground"> / </span>
+                                        <span className="text-right font-semibold italic">{totalFractions}</span>
                                         <span className="text-muted-foreground"> / </span>
                                         <span className="text-muted-foreground italic">50</span>
                                     </div>
