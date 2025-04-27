@@ -21,6 +21,7 @@ export function Id( {fleet}: IdProps ) {
 
     const isfleetFractionedQueryClient = useQueryClient()
     const fleetSharesQueryClient = useQueryClient()
+    const totalFractionsQueryClient = useQueryClient()
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
     const { data: isfleetFractioned, queryKey: isfleetFractionedQueryKey } = useReadContract({
@@ -45,12 +46,15 @@ export function Id( {fleet}: IdProps ) {
     }, [blockNumber, fleetSharesQueryClient, fleetSharesQueryKey]) 
 
 
-    const { data: totalFractions } = useReadContract({
+    const { data: totalFractions, queryKey: totalFractionsQueryKey } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
         functionName: "totalFractions",
         args: [BigInt(Number(fleet))],
     })
+    useEffect(() => { 
+        totalFractionsQueryClient.invalidateQueries({ queryKey: totalFractionsQueryKey }) 
+    }, [blockNumber, totalFractionsQueryClient, totalFractionsQueryKey]) 
 
 
     const { data: fleetOrderStatus } = useReadContract({
