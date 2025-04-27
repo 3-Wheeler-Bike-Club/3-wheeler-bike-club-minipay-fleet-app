@@ -417,7 +417,7 @@ export function Wrapper() {
                                 </Button>
                                 {/**pay with celoUSD */}
                                 <Button 
-                                    className="w-48/100" 
+                                    className={` ${allowanceCeloUSD && allowanceCeloUSD > 0 ? "w-48/100" : "w-48/100 bg-gradient-to-r from-yellow-400 to-green-500"}`}
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
                                         if (allowanceCeloUSD && allowanceCeloUSD > 0) {
