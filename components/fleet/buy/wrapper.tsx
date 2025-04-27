@@ -67,6 +67,20 @@ export function Wrapper() {
         functionName: "fleetFractionPrice",
     })
 
+    const { data: allowanceUSDT } = useReadContract({
+        abi: erc20Abi,
+        address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
+        functionName: "allowance",
+        args: [fleetOrderBook, "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
+    })
+
+
+    const { data: allowanceCeloUSD } = useReadContract({
+        abi: erc20Abi,
+        address: cUSD,
+        functionName: "allowance",
+        args: [fleetOrderBook, cUSD],
+    })
 
 
     async function approveUSDT() {
@@ -104,7 +118,7 @@ export function Wrapper() {
             chainId: celo.id,
             feeCurrency: USDT_ADAPTER,
             functionName: "approve",
-            args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
+            args: [fleetOrderBook, parseUnits(maxUint256.toLocaleString(), 18) ],
         },{
             onSuccess() {
                 //approval toast
@@ -160,7 +174,7 @@ export function Wrapper() {
             chainId: celo.id,
             feeCurrency: USDT_ADAPTER,
             functionName: "orderMultipleFleet",
-            args: [BigInt(amount), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD],
+            args: [BigInt(amount), cUSD],
         },{
             onSuccess() {
                 //success toast
@@ -219,7 +233,7 @@ export function Wrapper() {
             chainId: celo.id,
             feeCurrency: USDT_ADAPTER,
             functionName: "orderFleet",
-            args: [BigInt(shares), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/ cUSD],
+            args: [BigInt(shares), cUSD],
         },{
             onSuccess() {
                 //success toast
