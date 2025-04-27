@@ -3,6 +3,9 @@ import { CarouselItem } from "../ui/carousel"
 import { CardContent } from "../ui/card"
 import { Card } from "../ui/card"
 import Image from "next/image"
+import { useReadContract } from "wagmi"
+import { fleetOrderBookAbi } from "@/utils/abi"
+import { fleetOrderBook } from "@/utils/constants/addresses"
 
 
 
@@ -12,25 +15,50 @@ interface IdProps {
 
 export function Id( {fleet}: IdProps ) {
 
+    const { data: isfleetFractioned } = useReadContract({
+        address: fleetOrderBook,
+        abi: fleetOrderBookAbi,
+        functionName: "fleetFractioned",
+        args: [BigInt(Number(fleet))],
+    })
+
+
+    const { data: totalFractions } = useReadContract({
+        address: fleetOrderBook,
+        abi: fleetOrderBookAbi,
+        functionName: "totalFractions",
+        args: [BigInt(Number(fleet))],
+    })
+
+
+
     
     return (
         <>
             <CarouselItem key={Number(fleet)}>
                 <div className="p-1">
-                <Card>
-                    <CardContent className="flex items-center justify-center p-6">
-                    <Image src="/images/kekeHero.svg" alt={""} width={600} height={600} />
-                    </CardContent>
-                </Card>
-                <div className="flex flex-col gap-1 mt-2 text-sm">
-                    <div className="flex justify-between items-center">
-                        <span className="font-semibold">Vin:</span>
-                        <span className="text-right"></span>
+                    <Card className="bg-[url('/images/dodo.svg')] bg-center bg-cover">
+                        <CardContent className="flex items-center justify-center p-6">
+                        <Image src="/images/kekeHero.svg" alt={""} width={500} height={500} />
+                        </CardContent>
+                    </Card>
+                    <div className="flex flex-col gap-1 mt-2 text-sm">
+                        <div className="flex justify-between items-center">
+                            <span className="font-semibold">Vin:</span>
+                            <span className="text-right"></span>
                         </div>
                         <div className="flex justify-between items-center">
-                        <span className="font-semibold">License Plate:</span>
-                        <span className="text-right"></span>
+                            <span className="font-semibold">License Plate:</span>
+                            <span className="text-right"></span>
                         </div>
+                        {
+                            isfleetFractioned && (
+                                <div className="flex justify-between items-center">
+                                    <span className="font-semibold">Fractions:</span>
+                                    <span className="text-right">{totalFractions}</span>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </CarouselItem>
