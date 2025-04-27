@@ -43,7 +43,7 @@ A decentralized client application built on Next.js 15 that enables investors to
    ```bash
    git clone https://github.com/3-Wheeler-Bike-Club/3-wheeler-bike-club-minipay-fleet-app.git
    cd 3-wheeler-bike-club-minipay-fleet-app
-````
+
 
 2. **Install dependencies**
 
