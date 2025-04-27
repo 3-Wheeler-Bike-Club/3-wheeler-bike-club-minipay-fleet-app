@@ -60,7 +60,7 @@ export function Id( {fleet}: IdProps ) {
                         {
                             isfleetFractioned && (
                                 <div className="flex justify-between items-center">
-                                    <span className="font-semibold">Fractions:</span>
+                                    <span className="font-semibold">Shares:</span>
                                     <span className="text-right">{totalFractions}</span>
                                 </div>
                             )
