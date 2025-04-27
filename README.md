@@ -24,7 +24,7 @@ A decentralized client application built on Next.js 15 that enables investors to
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript 5, React 19
 - **UI & UX**: Tailwind CSS, Radix UI, Shadcn UI, Embla Carousel, Framer Motion, Lucide Icons
-- **Blockchain**: Celo Mainnet, WAGMI, VIEM, Vaul SDK
+- **Blockchain**: Celo Mainnet, WAGMI, VIEM
 - **Configuration**: Alchemy RPC
 
 ## 📦 Getting Started
