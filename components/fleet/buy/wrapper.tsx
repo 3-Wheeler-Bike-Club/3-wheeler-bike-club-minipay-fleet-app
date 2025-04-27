@@ -105,10 +105,20 @@ export function Wrapper() {
                         },
                         onError(error) {
                             console.log(error)
+                            toast.error("Purchase failed", {
+                                description: `Something went wrong, please try again`,
+                            })
                             setLoadingUSDT(false)
                         }
                     });
                 },
+                onError(error) {
+                    console.log(error)
+                    toast.error("Approval failed", {
+                        description: `Something went wrong, please try again`,
+                    })
+                    setLoadingUSDT(false)
+                }
             });
         } catch (error) {
             console.log(error)
@@ -150,11 +160,21 @@ export function Wrapper() {
                             })
                             setLoadingCeloUSD(false)
                             router.push("/fleet")
+                        },
+                        onError(error) {
+                            console.log(error)
+                            toast.error("Purchase failed", {
+                                description: `Something went wrong, please try again`,
+                            })
+                            setLoadingCeloUSD(false)
                         }
                     });
                 },
                 onError(error) {
                     console.log(error)
+                    toast.error("Approval failed", {
+                        description: `Something went wrong, please try again`,
+                    })
                     setLoadingCeloUSD(false)
                 }
             });
@@ -203,10 +223,20 @@ export function Wrapper() {
                         },
                         onError(error) {
                             console.log(error)
+                            toast.error("Purchase failed", {
+                                description: `Something went wrong, please try again`,
+                            })
                             setLoadingUSDT(false)
                         }
                     });
                 },
+                onError(error) {
+                    console.log(error)
+                    toast.error("Approval failed", {
+                        description: `Something went wrong, please try again`,
+                    })
+                    setLoadingUSDT(false)
+                }
             });
         } catch (error) {
             console.log(error)
@@ -252,10 +282,20 @@ export function Wrapper() {
                         },
                         onError(error) {
                             console.log(error)
+                            toast.error("Purchase failed", {
+                                description: `Something went wrong, please try again`,
+                            })
                             setLoadingCeloUSD(false)
                         }
                     });
                 },
+                onError(error) {
+                    console.log(error)
+                    toast.error("Approval failed", {
+                        description: `Something went wrong, please try again`,
+                    })
+                    setLoadingCeloUSD(false)
+                }
             });
         } catch (error) {
             console.log(error)
