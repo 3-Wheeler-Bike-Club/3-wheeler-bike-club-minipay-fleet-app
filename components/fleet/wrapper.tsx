@@ -10,12 +10,32 @@ import { useRouter } from "next/navigation";
 import { fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abi";
 import { History } from "./history";
-import { CarouselContent, CarouselNext, CarouselPrevious } from "../ui/carousel";
+import { CarouselApi, CarouselContent, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import { Carousel } from "../ui/carousel";
 import { Id } from "./id";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+
 export function Wrapper() {
+
+
+    const [api, setApi] = useState<CarouselApi>()
+    const [current, setCurrent] = useState(0)
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        if (!api) {
+          return
+        }
+     
+        setCount(api.scrollSnapList().length)
+        setCurrent(api.selectedScrollSnap() + 1)
+     
+        api.on("select", () => {
+          setCurrent(api.selectedScrollSnap() + 1)
+        })
+      }, [api])
 
     const { address, isConnected } = useAccount();
     console.log(address);
@@ -91,14 +111,17 @@ export function Wrapper() {
                 }
                 { fleetOwned && fleetOwned.length >= 1 && (
                     <div className="max-w-[66rem] w-full flex flex-col gap-6">
-                        <Carousel className="w-full ">
+                        <Carousel className="w-full" setApi={setApi}>
                             <div className="flex flex-col w-full mt-6 mb-2 px-4">
                                 <div className="flex flex-col">
                                     <span className="text-xs text-muted-foreground">Total Fleet</span>            
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <Warehouse className="h-6 w-6 text-primary"/>~
-                                    <span className="text-2xl font-bold">{fleetOwned.length}</span>
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-sm text-muted-foreground">{current} /</span>
+                                        <span className="text-2xl font-bold">{count}</span>
+                                    </div>
                                 </div>
                             </div>
                             
