@@ -48,7 +48,7 @@ export function Id( {fleet}: IdProps ) {
                         <Image src="/images/kekeHero.svg" alt={""} width={500} height={500} />
                         </CardContent>
                     </Card>
-                    <div className="flex flex-col gap-1 mt-2 text-sm">
+                    <div className="flex flex-col gap-1 mt-2 text-base">
                         <div className="flex justify-between items-center">
                             <span className="font-semibold">Fleet ID:</span>
                             <span className="text-right">{Number(fleet)}</span>
