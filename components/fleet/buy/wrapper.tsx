@@ -20,7 +20,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { /*USDT,*/ USDT_ADAPTER, cUSD, fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abi";
-import { erc20Abi } from "viem";
+import { erc20Abi, maxUint256 } from "viem";
 import { parseUnits } from 'viem'
 import { celo } from "viem/chains";
 import { toast } from "sonner";
@@ -69,235 +69,175 @@ export function Wrapper() {
 
 
 
+    async function approveUSDT() {
+        setLoadingUSDT(true)
+        await writeContractAsync({
+            abi: erc20Abi,
+            address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
+            chainId: celo.id,
+            feeCurrency: USDT_ADAPTER,
+            functionName: "approve",
+            args: [fleetOrderBook, parseUnits(maxUint256.toLocaleString(), 18) ],
+        },{
+            onSuccess() {
+                //approval toast
+                toast.info("Approval successful", {
+                    description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
+                })
+            },
+            onError(error) {
+                console.log(error)
+                toast.error("Approval failed", {
+                    description: `Something went wrong, please try again`,
+                })
+                setLoadingUSDT(false)
+            }
+        });
+    }
+
+
+    async function approveCeloUSD() {
+        setLoadingCeloUSD(true)
+        await writeContractAsync({
+            abi: erc20Abi,
+            address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD,
+            chainId: celo.id,
+            feeCurrency: USDT_ADAPTER,
+            functionName: "approve",
+            args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
+        },{
+            onSuccess() {
+                //approval toast
+                toast.info("Approval successful", {
+                    description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
+                })
+            },
+            onError(error) {
+                console.log(error)
+                toast.error("Approval failed", {
+                    description: `Something went wrong, please try again`,
+                })
+                setLoadingCeloUSD(false)
+            }
+        });
+    }
+
+
+    // order multiple fleet with USDT or celoUSD
     async function orderFleetWithUSDT() {    
-        try {
-            setLoadingUSDT(true)
-            await writeContractAsync({
-                abi: erc20Abi,
-                address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
-                chainId: celo.id,
-                feeCurrency: USDT_ADAPTER,
-                functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
-            },{
-                onSuccess() {
-                    //approval toast
-                    toast.info("Approval successful", {
-                        description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
-                    })
-                    writeContractAsync({
-                        abi: fleetOrderBookAbi,
-                        address: fleetOrderBook,
-                        chainId: celo.id,
-                        feeCurrency: USDT_ADAPTER,
-                        functionName: "orderMultipleFleet",
-                        args: [BigInt(amount), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
-                    },{
-                        onSuccess() {
-                            //success toast
-                            toast.success("Purchase successful", {
-                                description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
+        setLoadingUSDT(true)
+        writeContractAsync({
+            abi: fleetOrderBookAbi,
+            address: fleetOrderBook,
+            chainId: celo.id,
+            feeCurrency: USDT_ADAPTER,
+            functionName: "orderMultipleFleet",
+            args: [BigInt(amount), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
+        },{
+            onSuccess() {
+                //success toast
+                toast.success("Purchase successful", {
+                    description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
 
-                            })
-                            setLoadingUSDT(false)
-                            router.push("/fleet")
-                        },
-                        onError(error) {
-                            console.log(error)
-                            toast.error("Purchase failed", {
-                                description: `Something went wrong, please try again`,
-                            })
-                            setLoadingUSDT(false)
-                        }
-                    });
-                },
-                onError(error) {
-                    console.log(error)
-                    toast.error("Approval failed", {
-                        description: `Something went wrong, please try again`,
-                    })
-                    setLoadingUSDT(false)
-                }
-            });
-        } catch (error) {
-            console.log(error)
-            setLoadingUSDT(false)
-        } 
-
-        
+                })
+                setLoadingUSDT(false)
+                router.push("/fleet")
+            },
+            onError(error) {
+                console.log(error)
+                toast.error("Purchase failed", {
+                    description: `Something went wrong, please try again`,
+                })
+                setLoadingUSDT(false)
+            }
+        });
     }
-    async function orderFleetWithCeloUSD() {    
-        try {
-            setLoadingCeloUSD(true)
-            await writeContractAsync({
-                abi: erc20Abi,
-                address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD,
-                chainId: celo.id,
-                feeCurrency: USDT_ADAPTER,
-                functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(amount * Number(fleetFractionPrice) * 50), 18) ],
-            },{
-                onSuccess() {
-                    //approval toast
-                    toast.info("Approval successful", {
-                        description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
-                    })
-                    writeContractAsync({
-                        abi: fleetOrderBookAbi,
-                        address: fleetOrderBook,
-                        chainId: celo.id,
-                        feeCurrency: USDT_ADAPTER,
-                        functionName: "orderMultipleFleet",
-                        args: [BigInt(amount), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD],
-                    },{
-                        onSuccess() {
-                            //success toast
-                            toast.success("Purchase successful", {
-                                description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
-                            })
-                            setLoadingCeloUSD(false)
-                            router.push("/fleet")
-                        },
-                        onError(error) {
-                            console.log(error)
-                            toast.error("Purchase failed", {
-                                description: `Something went wrong, please try again`,
-                            })
-                            setLoadingCeloUSD(false)
-                        }
-                    });
-                },
-                onError(error) {
-                    console.log(error)
-                    toast.error("Approval failed", {
-                        description: `Something went wrong, please try again`,
-                    })
-                    setLoadingCeloUSD(false)
-                }
-            });
-        } catch (error) {
-            console.log(error)
-            setLoadingCeloUSD(false)
-        } 
-
-        
+    async function orderFleetWithCeloUSD() { 
+        setLoadingCeloUSD(true)
+        writeContractAsync({
+            abi: fleetOrderBookAbi,
+            address: fleetOrderBook,
+            chainId: celo.id,
+            feeCurrency: USDT_ADAPTER,
+            functionName: "orderMultipleFleet",
+            args: [BigInt(amount), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD],
+        },{
+            onSuccess() {
+                //success toast
+                toast.success("Purchase successful", {
+                    description: `You can now view your ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"} in your fleet`,
+                })
+                setLoadingCeloUSD(false)
+                router.push("/fleet")
+            },
+            onError(error) {
+                console.log(error)
+                toast.error("Purchase failed", {
+                    description: `Something went wrong, please try again`,
+                })
+                setLoadingCeloUSD(false)
+            }
+        });
     }
 
 
+    // order fleet fractions & single 3-Wheeler with USDT or celoUSD
     async function orderFleetFractionsWithUSDT( shares: number ) {    
-        try {
-            setLoadingUSDT(true)
-            await writeContractAsync({
-                abi: erc20Abi,
-                address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
-                chainId: celo.id,
-                feeCurrency: USDT_ADAPTER,
-                functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(shares * Number(fleetFractionPrice)), 18) ],
-            },{
-                onSuccess() {
-                    //approval toast
-                    toast.info("Approval successful", {
-                        description: `You can now purchase 3-Wheeler ${shares == 50 ? "3-Wheeler" : `${shares > 1 ? "fractions" : "fraction"}`}`,
-                    })
-                    writeContractAsync({
-                        abi: fleetOrderBookAbi,
-                        address: fleetOrderBook,
-                        chainId: celo.id,
-                        feeCurrency: USDT_ADAPTER,
-                        functionName: "orderFleet",
-                        args: [BigInt(shares), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
-                    },{
-                        onSuccess() {
-                            //success toast
-                            toast.success("Purchase successful", {
-                                description: `You can now view your 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`} in your fleet`,
+        setLoadingUSDT(true)
+        writeContractAsync({
+            abi: fleetOrderBookAbi,
+            address: fleetOrderBook,
+            chainId: celo.id,
+            feeCurrency: USDT_ADAPTER,
+            functionName: "orderFleet",
+            args: [BigInt(shares), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
+        },{
+            onSuccess() {
+                //success toast
+                toast.success("Purchase successful", {
+                    description: `You can now view your 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`} in your fleet`,
 
-                            })
-                            setLoadingUSDT(false)
-                            router.push("/fleet")
-                        },
-                        onError(error) {
-                            console.log(error)
-                            toast.error("Purchase failed", {
-                                description: `Something went wrong, please try again`,
-                            })
-                            setLoadingUSDT(false)
-                        }
-                    });
-                },
-                onError(error) {
-                    console.log(error)
-                    toast.error("Approval failed", {
-                        description: `Something went wrong, please try again`,
-                    })
-                    setLoadingUSDT(false)
-                }
-            });
-        } catch (error) {
-            console.log(error)
-            setLoadingUSDT(false)
-        } 
-
-        
+                })
+                setLoadingUSDT(false)
+                router.push("/fleet")
+            },
+            onError(error) {
+                console.log(error)
+                toast.error("Purchase failed", {
+                    description: `Something went wrong, please try again`,
+                })
+                setLoadingUSDT(false)
+            }
+        });
     }
+
     async function orderFleetFractionsWithCeloUSD( shares: number ) {    
-        try {
-            setLoadingCeloUSD(true)
-            await writeContractAsync({
-                abi: erc20Abi,
-                address: /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/cUSD,
-                chainId: celo.id,
-                feeCurrency: USDT_ADAPTER,
-                functionName: "approve",
-                args: [fleetOrderBook, parseUnits(String(shares * Number(fleetFractionPrice)), 18) ],
-            },{
-                onSuccess() {
-                    // approval toast
-                    toast.info("Approval successful", {
-                        description: `You can now purchase 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`}`,
-                    })
-                    //write contract
-                    writeContractAsync({
-                        abi: fleetOrderBookAbi,
-                        address: fleetOrderBook,
-                        chainId: celo.id,
-                        feeCurrency: USDT_ADAPTER,
-                        functionName: "orderFleet",
-                        args: [BigInt(shares), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/ cUSD],
-                    },{
-                        onSuccess() {
-                            //success toast
-                            toast.success("Purchase successful", {
-                                description: `You can now view your 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`} in your fleet`,
-                            })
+        setLoadingCeloUSD(true)
+        writeContractAsync({
+            abi: fleetOrderBookAbi,
+            address: fleetOrderBook,
+            chainId: celo.id,
+            feeCurrency: USDT_ADAPTER,
+            functionName: "orderFleet",
+            args: [BigInt(shares), /*"0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"*/ cUSD],
+        },{
+            onSuccess() {
+                //success toast
+                toast.success("Purchase successful", {
+                    description: `You can now view your 3-Wheeler ${shares == 50 ? "" : `${shares > 1 ? "fractions" : "fraction"}`} in your fleet`,
+                })
 
-                            setLoadingCeloUSD(false)
-                            router.push("/fleet")
-                        },
-                        onError(error) {
-                            console.log(error)
-                            toast.error("Purchase failed", {
-                                description: `Something went wrong, please try again`,
-                            })
-                            setLoadingCeloUSD(false)
-                        }
-                    });
-                },
-                onError(error) {
-                    console.log(error)
-                    toast.error("Approval failed", {
-                        description: `Something went wrong, please try again`,
-                    })
-                    setLoadingCeloUSD(false)
-                }
-            });
-        } catch (error) {
-            console.log(error)
-            setLoadingCeloUSD(false)
-        } 
-
-        
+                setLoadingCeloUSD(false)
+                router.push("/fleet")
+            },
+            onError(error) {
+                console.log(error)
+                toast.error("Purchase failed", {
+                    description: `Something went wrong, please try again`,
+                })
+                setLoadingCeloUSD(false)
+            }
+        });
     }
 
     return (
