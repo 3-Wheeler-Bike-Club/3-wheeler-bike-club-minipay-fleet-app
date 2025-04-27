@@ -57,6 +57,10 @@ export function Id( {fleet}: IdProps ) {
                             <span className="font-semibold">Fleet Status:</span>
                             <span className="text-right">{fleetOrderStatus}</span>
                         </div>
+                        <div className="flex justify-between items-center">
+                            <span className="font-semibold">Ownership:</span>
+                            <span className="text-right">{isfleetFractioned ? "Fractioned" : "Full"}</span>
+                        </div>
                         {
                             isfleetFractioned && (
                                 <div className="flex justify-between items-center">
