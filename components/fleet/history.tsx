@@ -13,13 +13,18 @@ import {
 } from "@/components/ui/drawer"
 import { Button } from "../ui/button";
 import { HistoryIcon } from "lucide-react";
+import { useGetLogs } from "@/hooks/useGetLogs";
+import { useAccount } from "wagmi";
 
 
 
 
 export function History() {
 
-   
+   const { address } = useAccount();
+
+   const { logs } = useGetLogs(address);
+   console.log(logs)
 
     return (
         <>
