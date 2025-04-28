@@ -3,42 +3,58 @@ import { publicClient } from '../utils/client'
 import { useEffect, useState } from "react";
 import { fleetOrderBook } from '@/utils/constants/addresses';
 import { Log } from 'viem';
+import { useBlockNumber } from 'wagmi';
 
 
 
 export const useGetLogs = (address: `0x${string}` | undefined) => {
-  const [logs, setLogs] = useState<Log[] | undefined>(undefined);
+    const [logs, setLogs] = useState<Log[] | undefined>(undefined);
 
+    const { data: blockNumber } = useBlockNumber({ watch: true }) 
+    
+    async function fetchFractionsLogs() {
+        if (address) {
+            const eventLogs = await publicClient.getLogs({
+                address: fleetOrderBook,
+                event: fleetOrderBookAbi[30],
+                args: {
+                    buyer: address,
+                },
+                fromBlock: BigInt(33839270), 
+                toBlock: 'latest'
+            })   
+            return eventLogs
+        }
+    }
+
+    async function fetchFullLogs() {
+        if (address) {
+            const eventLogs = await publicClient.getLogs({
+                address: fleetOrderBook,
+                event: fleetOrderBookAbi[33],
+                args: {
+                    buyer: address,
+                },
+                fromBlock: BigInt(33839270), 
+                toBlock: 'latest'
+            })
+            return eventLogs
+        }
+    }
     useEffect(() => {
-        async function fetchFractionsLogs() {
-            if (address) {
-                const eventLogs = await publicClient.getLogs({
-                    address: fleetOrderBook,
-                    event: fleetOrderBookAbi[30],
-                    args: {
-                        buyer: address,
-                    },
-                    fromBlock: BigInt(33839270), 
-                    toBlock: 'latest'
-                })
-                
-            }
-            
-        }
-        async function fetchFullLogs() {
-            if (address) {
-                const eventLogs = await publicClient.getLogs({
-                    address: fleetOrderBook,
-                    event: fleetOrderBookAbi[33],
-                    args: {
-                        buyer: address,
-                    },
-                    fromBlock: BigInt(33839270), 
-                    toBlock: 'latest'
-                })
+        async function sortLogs() {
+            const fractionsLogs = await fetchFractionsLogs()
+            const fullLogs = await fetchFullLogs()
+            if (fractionsLogs && fullLogs) {
+                const combinedLogs = [...fractionsLogs, ...fullLogs];
+                const sortedLogs = combinedLogs.sort((a, b) => {
+                    return Number(b.blockNumber) - Number(a.blockNumber);
+                });
+                setLogs(sortedLogs);
             }
         }
-    }, [address]);
+        sortLogs()
+    }, [address, blockNumber]);
 
     return { logs };
 };
