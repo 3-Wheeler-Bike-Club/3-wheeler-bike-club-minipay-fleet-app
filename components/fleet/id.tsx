@@ -125,7 +125,7 @@ export function Id( {fleet}: IdProps ) {
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="font-semibold">Yield Period:</span>
-                            <span className="text-right">52 weeks ~ 1 year</span>
+                            <span className="text-right">60 weeks ~ 1 year</span>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="font-semibold">Start Date:</span>
@@ -133,7 +133,7 @@ export function Id( {fleet}: IdProps ) {
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="font-semibold">Weekly ROI:</span>
-                            <span className="text-right"><span className="font-bold text-muted-foreground" >$</span> {isfleetFractioned ? `${ (( Number(fleetFractionPrice!) * Number(fleetShares!) ) * 1.75) / 52 }` : `${ ( (50 * Number(fleetFractionPrice!)) * 1.75 ) / 52 }`}</span>
+                            <span className="text-right"><span className="font-bold text-muted-foreground" >$</span> {isfleetFractioned ? `${((( Number(fleetFractionPrice!) * Number(fleetShares!) ) * 1.75) / 60).toFixed(2)}` : `${(( (50 * Number(fleetFractionPrice!)) * 1.75 ) / 60).toFixed(2)}`}</span>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="font-semibold">Total ROI:</span>
