@@ -15,7 +15,7 @@ interface IdProps {
     fleet: BigInt
 }
 
-export function Id( {fleet}: IdProps ) {
+export function Id( {fleet}: IdProps ) {    
 
     const { address } = useAccount()
 
@@ -23,6 +23,7 @@ export function Id( {fleet}: IdProps ) {
     const fleetSharesQueryClient = useQueryClient()
     const totalFractionsQueryClient = useQueryClient()
     const fleetOrderStatusQueryClient = useQueryClient()
+    const fleetFractionPriceQueryClient = useQueryClient()
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
     const { data: isfleetFractioned, queryKey: isfleetFractionedQueryKey } = useReadContract({
@@ -68,6 +69,19 @@ export function Id( {fleet}: IdProps ) {
         fleetOrderStatusQueryClient.invalidateQueries({ queryKey: fleetOrderStatusQueryKey }) 
     }, [blockNumber, fleetOrderStatusQueryClient, fleetOrderStatusQueryKey]) 
 
+
+    
+   
+    const { data: fleetFractionPrice, queryKey: fleetFractionPriceQueryKey } = useReadContract({
+        abi: fleetOrderBookAbi,
+        address: fleetOrderBook,
+        functionName: "fleetFractionPrice",
+    })
+    useEffect(() => { 
+        fleetFractionPriceQueryClient.invalidateQueries({ queryKey: fleetFractionPriceQueryKey }) 
+    }, [blockNumber, fleetFractionPriceQueryClient, fleetFractionPriceQueryKey]) 
+
+
     
     return (
         <>
@@ -105,6 +119,26 @@ export function Id( {fleet}: IdProps ) {
                                 </div>
                             )
                         }
+                        <div className="flex justify-between items-center">
+                            <span className="font-semibold">Capital:</span>
+                            <span className="text-right"><span className="font-bold text-muted-foreground">$ </span>{isfleetFractioned ? `${fleetFractionPrice! * fleetShares!}` : `${50 * Number(fleetFractionPrice!)}`}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <span className="font-semibold">Yield Period:</span>
+                            <span className="text-right">52 weeks ~ 1 year</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <span className="font-semibold">Start Date:</span>
+                            <span className="text-right italic">pending assignment...</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <span className="font-semibold">Weekly ROI:</span>
+                            <span className="text-right"><span className="font-bold text-muted-foreground" >$</span> {isfleetFractioned ? `${ (( Number(fleetFractionPrice!) * Number(fleetShares!) ) * 1.75) / 52 }` : `${ ( (50 * Number(fleetFractionPrice!)) * 1.75 ) / 52 }`}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <span className="font-semibold">Total ROI:</span>
+                            <span className="text-right"><span className="font-bold text-muted-foreground" >$</span> {isfleetFractioned ? `${ ( Number(fleetFractionPrice!) * Number(fleetShares!) ) * 1.75 }` : `${ ( 50 * Number(fleetFractionPrice!) ) * 1.75 }`}</span>
+                        </div>
                     </div>
                 </div>
             </CarouselItem>
