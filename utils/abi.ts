@@ -90,6 +90,11 @@ export const fleetOrderBookAbi = [
     "inputs": []
   },
   {
+    "name": "MaxOrderMultipleFleetExceeded",
+    "type": "error",
+    "inputs": []
+  },
+  {
     "name": "NoNativeTokenAccepted",
     "type": "error",
     "inputs": []
@@ -214,7 +219,7 @@ export const fleetOrderBookAbi = [
     "type": "event",
     "inputs": [
       {
-        "name": "fleetId",
+        "name": "id",
         "type": "uint256",
         "indexed": true,
         "internalType": "uint256"
@@ -277,16 +282,22 @@ export const fleetOrderBookAbi = [
     "type": "event",
     "inputs": [
       {
-        "name": "fleetId",
-        "type": "uint256",
+        "name": "ids",
+        "type": "uint256[]",
         "indexed": true,
-        "internalType": "uint256"
+        "internalType": "uint256[]"
       },
       {
         "name": "buyer",
         "type": "address",
         "indexed": true,
         "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
@@ -756,7 +767,7 @@ export const fleetOrderBookAbi = [
     "type": "function",
     "inputs": [
       {
-        "name": "fractions",
+        "name": "amount",
         "type": "uint256",
         "internalType": "uint256"
       },
@@ -770,11 +781,11 @@ export const fleetOrderBookAbi = [
     "stateMutability": "nonpayable"
   },
   {
-    "name": "orderMultipleFleet",
+    "name": "orderFleetFraction",
     "type": "function",
     "inputs": [
       {
-        "name": "amount",
+        "name": "fractions",
         "type": "uint256",
         "internalType": "uint256"
       },

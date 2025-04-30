@@ -173,7 +173,7 @@ export function Wrapper() {
                 address: fleetOrderBook,
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
-                functionName: "orderMultipleFleet",
+                functionName: "orderFleet",
                 args: [BigInt(amount), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
             },{
                 onSuccess() {
@@ -206,7 +206,7 @@ export function Wrapper() {
                 address: fleetOrderBook,
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
-                functionName: "orderMultipleFleet",
+                functionName: "orderFleet",
                 args: [BigInt(amount), cUSD],
             },{
                 onSuccess() {
@@ -241,7 +241,7 @@ export function Wrapper() {
                 address: fleetOrderBook,
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
-                functionName: "orderFleet",
+                functionName: "orderFleetFraction",
                 args: [BigInt(shares), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/],
             },{
                 onSuccess() {
@@ -274,7 +274,7 @@ export function Wrapper() {
                 address: fleetOrderBook,
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
-                functionName: "orderFleet",
+                functionName: "orderFleetFraction",
                 args: [BigInt(shares), cUSD],
             },{
                 onSuccess() {
@@ -378,11 +378,7 @@ export function Wrapper() {
                                             if (isFractionsMode) {
                                                 orderFleetFractionsWithUSDT(fractions)
                                             } else {
-                                                if (amount == 1) {
-                                                    orderFleetFractionsWithUSDT(50)
-                                                } else {
-                                                    orderFleetWithUSDT()
-                                                }
+                                                orderFleetWithUSDT()
                                             }
                                         } else {
                                             approveUSDT()
@@ -431,11 +427,7 @@ export function Wrapper() {
                                             if (isFractionsMode) {
                                                 orderFleetFractionsWithCeloUSD(fractions)
                                             } else {
-                                                if (amount == 1) {
-                                                    orderFleetFractionsWithCeloUSD(50)
-                                                } else {
-                                                    orderFleetWithCeloUSD()
-                                                }
+                                                orderFleetWithCeloUSD()
                                             }
                                         } else {
                                             approveCeloUSD()
