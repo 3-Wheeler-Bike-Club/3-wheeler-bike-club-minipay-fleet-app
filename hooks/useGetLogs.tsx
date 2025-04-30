@@ -8,7 +8,7 @@ import { useBlockNumber } from 'wagmi';
 
 
 export const useGetLogs = (address: `0x${string}` | undefined) => {
-    const [logs, setLogs] = useState<Log[] | undefined>(undefined);
+    const [logs, setLogs] = useState<any[] | undefined>(undefined);
 
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
     
