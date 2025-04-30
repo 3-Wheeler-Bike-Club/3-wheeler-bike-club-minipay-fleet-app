@@ -9,7 +9,7 @@ import { useAccount, useBlockNumber, useReadContract } from 'wagmi'
 import { useRouter } from "next/navigation";
 import { fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abi";
-import { Log } from "./history/log";
+import { Logs } from "./history/logs";
 import { CarouselApi, CarouselContent, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import { Carousel } from "../ui/carousel";
 import { Id } from "./id";
@@ -80,7 +80,7 @@ export function Wrapper() {
                         </Button>
                         {
                             fleetOwned && fleetOwned.length >= 1 && (
-                                <Log/>
+                                <Logs/>
                             )
                         }
                     </div>

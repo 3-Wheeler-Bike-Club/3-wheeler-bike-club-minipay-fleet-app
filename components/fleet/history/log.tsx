@@ -1,80 +1,27 @@
-"use client"
+import { TableCell, TableRow } from "@/components/ui/table";
+import { useGetBlockTime } from "@/hooks/useGetBlockTime";
+import { shortenTxt } from "@/utils/shorten";
+import { ChartPie, RefreshCw } from "lucide-react";
+
+interface LogProps{
+    log: any
+}
 
 
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
-import { Button } from "../../ui/button";
-import { HistoryIcon } from "lucide-react";
-import { useGetLogs } from "@/hooks/useGetLogs";
-import { useAccount } from "wagmi";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
+export function Log({ log }: LogProps) {
 
+    
+   const { blockTime } = useGetBlockTime(log.blockNumber);
 
-
-
-export function Log() {
-
-   const { address } = useAccount();
-
-   const { logs } = useGetLogs(address);
-   console.log(logs)
 
     return (
         <>
-        <Drawer>
-                <DrawerTrigger asChild>
-                    <Button variant="outline" className="max-w-fit h-12 rounded-2xl">
-                        <HistoryIcon className="text-yellow-600" />
-                    </Button>
-                </DrawerTrigger>
-                <DrawerContent className="h-full ">
-                <div className="mx-auto w-full max-w-sm pb-6">
-                    <DrawerHeader>
-                        <DrawerTitle>
-                            History
-                        </DrawerTitle>
-                        <DrawerDescription className="max-md:text-[0.9rem]">View your fleet order history.</DrawerDescription>
-                    </DrawerHeader>
-                    <div className="flex flex-col gap-2 p-4 pb-0">
-                    <Table>
-                        <TableCaption>A list of your recent fleet orders.</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Fleet</TableHead>
-                                <TableHead>Order</TableHead>
-                                <TableHead>Amount</TableHead>
-                                <TableHead>Tx Hash</TableHead>
-                                <TableHead>Date</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {
-                                logs?.map((log) => (
-                                    <TableRow key={log.transactionHash}>
-                                        <TableCell>{log.args.fleetId}</TableCell>
-                                        <TableCell>{log.eventName}</TableCell>
-                                        <TableCell>{log.args.fractions}</TableCell>
-                                        <TableCell>{log.transactionHash}</TableCell>
-                                        <TableCell>{log.date}</TableCell>
-                                    </TableRow>
-                                ))
-                            }
-                        </TableBody>
-                    </Table>
-
-                    </div>
-                </div>
-                    
-                </DrawerContent>
-        </Drawer>
+            <TableRow>
+                <TableCell>{log.args.fleetId}</TableCell>
+                <TableCell>{log.eventName === "FleetOrdered" ? <div className="flex items-center gap-2"><RefreshCw className="h-4 w-4 text-yellow-600"/> <p>1</p></div> : <div className="flex items-center gap-2"><ChartPie className="h-4 w-4 text-yellow-600"/> <p className="text-xs">{log.args.fractions} / 50</p></div>}</TableCell>
+                <TableCell>{shortenTxt(log.transactionHash)}</TableCell>
+                <TableCell>{new Date(Number(blockTime) * 1000).toLocaleDateString()}</TableCell>
+            </TableRow>
         </>
-    );
+    )
 }
