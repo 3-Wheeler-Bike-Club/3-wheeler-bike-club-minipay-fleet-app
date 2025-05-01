@@ -2,7 +2,6 @@ import { fleetOrderBookAbi } from '@/utils/abi';
 import { publicClient } from '../utils/client'
 import { useEffect, useState } from "react";
 import { fleetOrderBook } from '@/utils/constants/addresses';
-import { Log } from 'viem';
 import { useBlockNumber } from 'wagmi';
 
 
