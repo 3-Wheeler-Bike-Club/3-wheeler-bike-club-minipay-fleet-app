@@ -1,4 +1,4 @@
 export const cUSD: `0x${string}` = "0x765de816845861e75a25fca122bb6898b8b1282a";
 export const USDT: `0x${string}` = "0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e";
 export const USDT_ADAPTER: `0x${string}` = "0x0E2A3e05bc9A16F5292A6170456A710cb89C6f72";
-export const fleetOrderBook: `0x${string}` = "0xef7F972D08335F4D591E27dB87F558d43A8AfC73";
+export const fleetOrderBook: `0x${string}` = "0x630d9E7Dda453EDa0676bd24CEB1b7f22576b58D";

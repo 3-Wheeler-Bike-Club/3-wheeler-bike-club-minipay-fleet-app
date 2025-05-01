@@ -78,7 +78,9 @@ npm start
 ## 🔧 Configuration
 
 - **RPC URL**: Set `ALCHEMY_RPC_URL` in `.env.local` to point to your Alchemy Celo endpoint.
-- **Contract Address**: The fleet-orderbook contract is deployed at: `0x8302a25627f48E27d3b408959aEFDbCe9D0CE183` (Celo Mainnet)
+- **Old Contract Address**: The fleet-orderbook contract is deployed at: `0x8302a25627f48E27d3b408959aEFDbCe9D0CE183` (Celo Mainnet)
+- **Contract Address**: The fleet-orderbook contract is deployed at: `0x630d9E7Dda453EDa0676bd24CEB1b7f22576b58D` (Celo Mainnet)
+
 
 ## 📁 Directory Structure
 

@@ -284,7 +284,7 @@ export const fleetOrderBookAbi = [
       {
         "name": "ids",
         "type": "uint256[]",
-        "indexed": true,
+        "indexed": false,
         "internalType": "uint256[]"
       },
       {
