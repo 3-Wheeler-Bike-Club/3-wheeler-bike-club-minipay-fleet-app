@@ -4,6 +4,7 @@ import "./globals.css";
 import { WagmiContext } from "@/context/wagmiContext";
 import { MiniAppContext } from "@/context/miniAppContext";
 import { Toaster } from "@/components/ui/sonner"
+import { PrivyContext } from "@/context/PrivyContext";
 
 
 
@@ -35,7 +36,9 @@ export default function RootLayout({
       >
         <WagmiContext>
           <MiniAppContext>
-            {children}
+            <PrivyContext>
+              {children}
+            </PrivyContext>
             <Toaster expand={true} richColors />
           </MiniAppContext>
         </WagmiContext>
