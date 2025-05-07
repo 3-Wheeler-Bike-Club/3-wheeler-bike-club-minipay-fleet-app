@@ -38,7 +38,7 @@ export function Logs() {
                     </Button>
                 </DrawerTrigger>
                 <DrawerContent className="h-full">
-                <div className="mx-auto w-full h-full max-w-sm pb-6">
+                <div className="mx-auto w-full max-w-sm pb-6">
                     <DrawerHeader>
                         <DrawerTitle>
                             History
@@ -46,32 +46,28 @@ export function Logs() {
                         <DrawerDescription className="max-md:text-[0.9rem]">View your fleet order history.</DrawerDescription>
                     </DrawerHeader>
                     <div className="flex flex-col h-full gap-2 p-4 pb-0">
-                    <div className="flex w-full ml-2 text-sm font-bold">
-                        <span className="w-1/4">Fleet</span>
-                        <span className="w-1/4">No.</span>
-                        <span className="w-1/4">Txn</span>
-                        <span className="w-1/4">Date</span>
-                    </div>
-                    <Table>
-                        <TableCaption>A list of your recent fleet orders.</TableCaption>
-                        <ScrollArea className="h-96">
-                            <TableBody>
-                                {
-                                    logs?.map((log) => (
-                                        <Log key={log.transactionHash} log={log} />
-                                    ))
-                                }
-                            </TableBody>
-                        </ScrollArea>
-                    </Table>
-
+                        <div className="flex w-full ml-2 text-sm font-bold">
+                            <span className="w-1/4">Fleet</span>
+                            <span className="w-1/4">No.</span>
+                            <span className="w-1/4">Txn</span>
+                            <span className="w-1/4">Date</span>
+                        </div>
+                        <Table className="h-full">
+                            <TableCaption>A list of your recent fleet orders.</TableCaption>
+                            <ScrollArea className="h-full">
+                                <TableBody>
+                                    {
+                                        logs?.map((log) => (
+                                            <Log key={log.transactionHash} log={log} />
+                                        ))
+                                    }
+                                </TableBody>
+                            </ScrollArea>
+                        </Table>
                     </div>
                 </div>
-                    
+                <DrawerFooter></DrawerFooter>
                 </DrawerContent>
-                <DrawerFooter>
-                    
-                </DrawerFooter>
         </Drawer>
         </>
     );
