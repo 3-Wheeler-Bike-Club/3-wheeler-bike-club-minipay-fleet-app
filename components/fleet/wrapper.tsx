@@ -44,6 +44,7 @@ export function Wrapper() {
     const fleetOwnedQueryClient = useQueryClient() 
     const maxFleetOrderQueryClient = useQueryClient() 
     const totalFleetQueryClient = useQueryClient()
+    const lastFleetFractionQuerClient = useQueryClient()
     const totalFractionsQueryClient = useQueryClient()
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
@@ -79,9 +80,17 @@ export function Wrapper() {
         totalFleetQueryClient.invalidateQueries({ queryKey: totalFleetQueryKey }) 
     }, [blockNumber, totalFleetQueryClient, totalFleetQueryKey]) 
 
+    // read last fleet fraction 
+    const { data: lastFleetFractionID, queryKey: lastFleetFractionQueryKey } = useReadContract({
+        address: fleetOrderBook,
+        abi: fleetOrderBookAbi,
+        functionName: "lastFleetFractionID",
+    });
+    useEffect(() => { 
+        lastFleetFractionQuerClient.invalidateQueries({ queryKey: lastFleetFractionQueryKey }) 
+    }, [blockNumber, lastFleetFractionQuerClient, lastFleetFractionQueryKey]) 
     
-    
-    // read balance of total fraction order
+    // read balance of total fraction
     const { data: totalFractions, queryKey: totalFractionsQueryKey } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
