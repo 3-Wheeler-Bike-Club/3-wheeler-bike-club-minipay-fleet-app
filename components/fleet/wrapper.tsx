@@ -20,6 +20,7 @@ import { Progress } from "../ui/progress";
 
 export function Wrapper() {
 
+    const router = useRouter();
 
     const [api, setApi] = useState<CarouselApi>()
     const [current, setCurrent] = useState(0)
@@ -95,12 +96,14 @@ export function Wrapper() {
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
         functionName: "totalFractions",
+        args: [lastFleetFractionID!]
     });
     useEffect(() => { 
         totalFractionsQueryClient.invalidateQueries({ queryKey: totalFractionsQueryKey }) 
     }, [blockNumber, totalFractionsQueryClient, totalFractionsQueryKey]) 
 
-    const router = useRouter();
+    
+    
     
     return (
         <div className="flex flex-col h-full p-4 md:p-6 lg:p-8 w-full gap-6">
@@ -117,7 +120,7 @@ export function Wrapper() {
                             <Progress value={progress} className="w-full h-2" />
                             <div className="flex justify-between text-[0.7rem] text-muted-foreground">
                                 <span>{progress}% complete</span>
-                                <span>{Number(maxFleetOrder) - Number(totalFleet)} units left</span>
+                                <span>{Number(maxFleetOrder) - Number(totalFleet)} units, {50 - Number(totalFractions)} fractions left</span>
                             </div>
                         </div>
                     </AlertDescription>
