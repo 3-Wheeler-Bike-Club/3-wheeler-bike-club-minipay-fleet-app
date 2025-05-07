@@ -41,19 +41,31 @@ export function Wrapper() {
     const { address, isConnected } = useAccount();
     console.log(address);
 
-    const queryClient = useQueryClient() 
+    const fleetOwnedQueryClient = useQueryClient() 
+    const maxFleetOrderQueryClient = useQueryClient() 
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
     // read balance of fleet owned
-    const { data: fleetOwned, queryKey } = useReadContract({
+    const { data: fleetOwned, queryKey: fleetOwnedQueryKey } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
         functionName: "getFleetOwned",
         args: [ address! ],
     });
     useEffect(() => { 
-        queryClient.invalidateQueries({ queryKey }) 
-    }, [blockNumber, queryClient, queryKey]) 
+        fleetOwnedQueryClient.invalidateQueries({ queryKey: fleetOwnedQueryKey }) 
+    }, [blockNumber, fleetOwnedQueryClient, fleetOwnedQueryKey]) 
+
+    // read balance of max fleet order
+    const { data: maxFleetOrder, queryKey: maxFleetOrderQueryKey } = useReadContract({
+        address: fleetOrderBook,
+        abi: fleetOrderBookAbi,
+        functionName: "maxFleetOrder",
+    });
+    useEffect(() => { 
+        maxFleetOrderQueryClient.invalidateQueries({ queryKey: maxFleetOrderQueryKey }) 
+    }, [blockNumber, maxFleetOrderQueryClient, maxFleetOrderQueryKey]) 
+
     const router = useRouter();
     
     return (
@@ -71,7 +83,7 @@ export function Wrapper() {
                             <Progress value={progress} className="w-full h-2" />
                             <div className="flex justify-between text-[0.7rem] text-muted-foreground">
                                 <span>{progress}% complete</span>
-                                <span>{Math.floor(progress * 10)} units sold</span>
+                                <span>{Math.floor(progress * 10)} units left</span>
                             </div>
                         </div>
                     </AlertDescription>
