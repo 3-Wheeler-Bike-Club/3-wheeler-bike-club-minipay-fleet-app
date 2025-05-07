@@ -7,7 +7,7 @@ export function Menu() {
     
     return (
         <div className="flex w-full justify-center">
-            <div className="w-full max-w-[96rem] max-h-[4rem] h-full flex justify-between items-center px-6">
+            <div className="w-full max-h-[4rem] h-full flex justify-between items-center">
                 <div className="flex">
                     <Image src="/icons/512x512.png" alt="logo" width={50} height={50} /> 
                 </div>
