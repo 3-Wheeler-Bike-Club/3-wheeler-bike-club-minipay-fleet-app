@@ -28,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistMono.className}`}
       >
-        <div className="fixed top-0 left-0 right-0 bg-yellow-500 text-black py-2 text-center font-bold z-50">
+        <div className="fixed top-0 left-0 right-0 bg-yellow-500 text-black py-1 text-center font-bold z-50">
           ⚠️ Test Mode: Do not use real funds. Contact us at <a href="https://t.me/threeWB" className="text-blue-500">https://t.me/threeWB</a> for test tokens.
         </div>
         <WagmiContext>

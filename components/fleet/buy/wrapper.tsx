@@ -136,7 +136,7 @@ export function Wrapper() {
             setLoadingCeloUSD(true)
             await writeContractAsync({
                 abi: erc20Abi,
-                address: cUSD,
+                address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*cUSD*/,
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "approve",
@@ -207,7 +207,7 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "orderFleet",
-                args: [BigInt(amount), cUSD],
+                args: [BigInt(amount), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*cUSD*/],
             },{
                 onSuccess() {
                     //success toast
@@ -275,7 +275,7 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "orderFleetFraction",
-                args: [BigInt(shares), cUSD],
+                args: [BigInt(shares), "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*cUSD*/],
             },{
                 onSuccess() {
                     //success toast
