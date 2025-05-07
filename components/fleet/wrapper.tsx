@@ -43,6 +43,7 @@ export function Wrapper() {
 
     const fleetOwnedQueryClient = useQueryClient() 
     const maxFleetOrderQueryClient = useQueryClient() 
+    const totalFleetQueryClient = useQueryClient() 
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
     // read balance of fleet owned
@@ -65,6 +66,17 @@ export function Wrapper() {
     useEffect(() => { 
         maxFleetOrderQueryClient.invalidateQueries({ queryKey: maxFleetOrderQueryKey }) 
     }, [blockNumber, maxFleetOrderQueryClient, maxFleetOrderQueryKey]) 
+
+
+    // read balance of max fleet order
+    const { data: totalFleet, queryKey: totalFleetQueryKey } = useReadContract({
+        address: fleetOrderBook,
+        abi: fleetOrderBookAbi,
+        functionName: "totalFleet",
+    });
+    useEffect(() => { 
+        totalFleetQueryClient.invalidateQueries({ queryKey: totalFleetQueryKey }) 
+    }, [blockNumber, totalFleetQueryClient, totalFleetQueryKey]) 
 
     const router = useRouter();
     
