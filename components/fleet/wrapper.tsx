@@ -95,7 +95,7 @@ export function Wrapper() {
                             <Progress value={progress} className="w-full h-2" />
                             <div className="flex justify-between text-[0.7rem] text-muted-foreground">
                                 <span>{progress}% complete</span>
-                                <span>{Math.floor(progress * 10)} units left</span>
+                                <span>{Number(maxFleetOrder) - Number(totalFleet)} units left</span>
                             </div>
                         </div>
                     </AlertDescription>
