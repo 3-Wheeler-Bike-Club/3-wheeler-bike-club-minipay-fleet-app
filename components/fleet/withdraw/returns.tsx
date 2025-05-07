@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/drawer"
 import { Button } from "../../ui/button";
 import { BanknoteArrowUp } from "lucide-react";
-import { useGetLogs } from "@/hooks/useGetLogs";
 import { useAccount } from "wagmi";
 
 
@@ -21,8 +20,6 @@ export function Returns() {
     
    const { address } = useAccount();
 
-   const { logs } = useGetLogs(address);
-   console.log(logs)
 
 
     return (
