@@ -90,7 +90,7 @@ export function Wrapper() {
 
     const { data: allowanceCeloUSD, isLoading: allowanceCeloDollarLoading, queryKey: allowanceCeloDollarQueryKey } = useReadContract({
         abi: erc20Abi,
-        address: cUSD,
+        address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*cUSD*/,
         functionName: "allowance",
         args: [address!, fleetOrderBook],
     })
