@@ -17,7 +17,7 @@ export function Log({ log }: LogProps) {
     return (
         <>
             <TableRow className="flex w-full">
-                <TableCell className="w-1/4">{log.eventName === "FleetOrdered" ? log.args.ids.join(", ") : log.args.id}</TableCell>
+                <TableCell className="w-1/4">{log.eventName === "FleetOrdered" ? log.args.ids.join(",") : log.args.id}</TableCell>
                 <TableCell className="w-1/4">{log.eventName === "FleetOrdered" ? <div className="flex items-center gap-2"><RefreshCw className="h-4 w-4 text-yellow-600"/> <p>{log.args.ids.length}</p></div> : <div className="flex items-center gap-2"><ChartPie className="h-4 w-4 text-yellow-600"/> <p className="text-xs">{log.args.fractions} / 50</p></div>}</TableCell>
                 <TableCell className="w-1/4">
                     <a 
