@@ -10,9 +10,7 @@ export const MiniAppContext = ({ children }: { children: React.ReactNode }) => {
     const { connect } = useConnect();
       
     useEffect(() => {
-        if (window.ethereum.isMiniPay) {
-            connect({ connector: injected() });
-        }
+        connect({ connector: injected() });
     }, []);
 
     return (
