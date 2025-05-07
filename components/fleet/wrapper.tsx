@@ -15,6 +15,7 @@ import { Carousel } from "../ui/carousel";
 import { Id } from "./id";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { Progress } from "../ui/progress";
 
 
 export function Wrapper() {
@@ -22,6 +23,8 @@ export function Wrapper() {
 
     const [api, setApi] = useState<CarouselApi>()
     const [current, setCurrent] = useState(0)
+
+    const [progress, setProgress] = useState(13)
 
     useEffect(() => {
         if (!api) {
@@ -60,29 +63,40 @@ export function Wrapper() {
             <div className="flex w-full justify-center">
                 <Alert className="w-full max-w-[66rem]">
                     <Caravan className="h-4 w-4" />
-                    <AlertTitle className="font-bold">Fleet!</AlertTitle>
+                    <AlertTitle className="font-bold"> Manage Fleet!</AlertTitle>
                     <AlertDescription className="text-xs italic">
-                        Add fleet and view orders & hire purchase 3 Wheelers.
+                        <p>Pre-order 3-Wheelers & track the returns</p>
+                        <div className="flex w-full flex-col gap-2 mt-2">
+                            
+                            <Progress value={progress} className="w-full h-2" />
+                            <div className="flex justify-between text-[0.7rem] text-muted-foreground">
+                                <span>{progress}% complete</span>
+                                <span>{Math.floor(progress * 10)} units sold</span>
+                            </div>
+                        </div>
                     </AlertDescription>
                 </Alert>
             </div>
 
             <div className="flex w-full items-center justify-center">
                 <div className="flex w-full max-w-[66rem] gap-4">
-                    <div className="flex w-full gap-2 justify-end">
-                        <Button 
-                            disabled={!isConnected}
-                            className="max-w-fit h-12 rounded-xl"
-                            onClick={() => router.push("/fleet/buy")}
-                        >
-                            <HandCoins />
-                            <p>Buy 3-Wheeler</p>
-                        </Button>
-                        {
-                            fleetOwned && fleetOwned.length >= 1 && (
-                                <Logs/>
-                            )
-                        }
+                    <div className="flex w-full gap-2 justify-between">
+                        <div/>
+                        <div className="flex gap-2">
+                            <Button 
+                                disabled={!isConnected}
+                                className="max-w-fit h-12 rounded-xl"
+                                onClick={() => router.push("/fleet/buy")}
+                            >
+                                <HandCoins />
+                                <p>Buy 3-Wheeler</p>
+                            </Button>
+                            {
+                                fleetOwned && fleetOwned.length >= 1 && (
+                                    <Logs/>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
