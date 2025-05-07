@@ -25,7 +25,7 @@ export function Wrapper() {
     const [api, setApi] = useState<CarouselApi>()
     const [current, setCurrent] = useState(0)
 
-    const [progress, setProgress] = useState(13)
+    const [progress, setProgress] = useState<number | null>(null)
 
     useEffect(() => {
         if (!api) {
@@ -103,7 +103,16 @@ export function Wrapper() {
     }, [blockNumber, totalFractionsQueryClient, totalFractionsQueryKey]) 
 
     
-    
+    useEffect(() => {
+        if (totalFractions) {
+            const totalFractionsSold = Number(totalFractions) + ((Number(totalFleet) - 1) * 50)
+
+            const totalFractionsAvailable = Number(maxFleetOrder) * 50
+
+            const value = (totalFractionsSold / totalFractionsAvailable) * 100
+            setProgress(value)
+        }
+    }, [totalFractions, totalFleet, maxFleetOrder])
     
     return (
         <div className="flex flex-col h-full p-4 md:p-6 lg:p-8 w-full gap-6">
@@ -119,7 +128,7 @@ export function Wrapper() {
                             
                             <Progress value={progress} className="w-full h-2" />
                             <div className="flex justify-between text-[0.7rem] text-muted-foreground">
-                                <span>{progress}% complete</span>
+                                <span>{(progress?.toFixed(2))}% complete</span>
                                 <span>{Number(maxFleetOrder) - Number(totalFleet)} units, {50 - Number(totalFractions)} fractions left</span>
                             </div>
                         </div>
