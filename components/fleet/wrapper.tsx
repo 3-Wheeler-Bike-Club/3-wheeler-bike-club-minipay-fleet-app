@@ -16,6 +16,7 @@ import { Id } from "./id";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Progress } from "../ui/progress";
+import { Returns } from "./withdraw/returns";
 
 
 export function Wrapper() {
@@ -151,7 +152,10 @@ export function Wrapper() {
                             </Button>
                             {
                                 fleetOwned && fleetOwned.length >= 1 && (
-                                    <Logs/>
+                                    <div className="flex gap-2">
+                                        <Logs/>
+                                        <Returns/>
+                                    </div>
                                 )
                             }
                         </div>
