@@ -3,7 +3,6 @@ import { string } from "zod"
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            NEXT_PUBLIC_PRIVY_APP_ID: string
             NEXT_PUBLIC_WC_PROJECT_ID: string
             ALCHEMY_RPC_URL: string
             MONGO: string
