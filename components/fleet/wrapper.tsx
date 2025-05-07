@@ -124,7 +124,7 @@ export function Wrapper() {
                     <Caravan className="h-4 w-4" />
                     <AlertTitle className="font-bold"> Manage Fleet!</AlertTitle>
                     <AlertDescription className="text-xs italic">
-                        <p>Pre-order 3-Wheelers & track the returns</p>
+                        <p className="max-md:text-[11px]">Pre-order 3-Wheelers & track the returns</p>
                         <div className="flex w-full flex-col gap-2 mt-2">
                             
                             <Progress value={progress} className="w-full h-2" />
