@@ -127,7 +127,7 @@ export function Wrapper() {
                         <div className="flex w-full flex-col gap-2 mt-2">
                             
                             <Progress value={progress} className="w-full h-2" />
-                            <div className="flex justify-between text-[0.7rem] text-muted-foreground">
+                            <div className="flex justify-between text-[0.7rem] text-[9px] text-muted-foreground">
                                 <span>{(progress?.toFixed(2))}% complete</span>
                                 <span>{Number(maxFleetOrder) - Number(totalFleet)} units, {50 - Number(totalFractions)} fractions left</span>
                             </div>
