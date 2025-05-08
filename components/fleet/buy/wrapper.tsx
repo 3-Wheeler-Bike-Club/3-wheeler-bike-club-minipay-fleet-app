@@ -19,7 +19,7 @@ import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { /*USDT,*/ USDT_ADAPTER, /*cUSD,*/ fleetOrderBook } from "@/utils/constants/addresses";
-import { fleetOrderBookAbi } from "@/utils/abi";
+import { fleetOrderBookAbi } from "@/utils/abis/fleetOrderBook";
 import { erc20Abi, maxUint256 } from "viem";
 import { celo } from "viem/chains";
 import { toast } from "sonner";

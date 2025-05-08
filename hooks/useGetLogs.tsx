@@ -1,4 +1,4 @@
-import { fleetOrderBookAbi } from '@/utils/abi';
+import { fleetOrderBookAbi } from '@/utils/abis/fleetOrderBook';
 import { publicClient } from '../utils/client'
 import { useEffect, useState } from "react";
 import { fleetOrderBook } from '@/utils/constants/addresses';

@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { useAccount, useBlockNumber, useReadContract } from 'wagmi'
 import { useRouter } from "next/navigation";
 import { fleetOrderBook } from "@/utils/constants/addresses";
-import { fleetOrderBookAbi } from "@/utils/abi";
+import { fleetOrderBookAbi } from "@/utils/abis/fleetOrderBook";
 import { Logs } from "./history/logs";
 import { CarouselApi, CarouselContent, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import { Carousel } from "../ui/carousel";
