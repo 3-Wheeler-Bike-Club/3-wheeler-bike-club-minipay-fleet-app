@@ -18,13 +18,13 @@ import { motion } from "framer-motion"
 import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { /*USDT,*/ USDT_ADAPTER, /*cUSD,*/ fleetOrderBook } from "@/utils/constants/addresses";
+import { /*USDT,*/ USDT_ADAPTER, divvi, /*cUSD,*/ fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abis/fleetOrderBook";
 import { erc20Abi, maxUint256 } from "viem";
 import { celo } from "viem/chains";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
- 
+import { divviAbi } from "@/utils/abis/divvi";
 
 
 
@@ -46,6 +46,7 @@ export function Wrapper() {
     const fleetFractionPriceQueryClient = useQueryClient()
     const allowanceDollarQueryClient = useQueryClient()
     const allowanceCeloDollarQueryClient = useQueryClient()
+    const isUserReferredToProviderQueryClient = useQueryClient()
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
 
 
@@ -97,6 +98,16 @@ export function Wrapper() {
     useEffect(() => { 
         allowanceCeloDollarQueryClient.invalidateQueries({ queryKey: allowanceCeloDollarQueryKey }) 
     }, [blockNumber, allowanceCeloDollarQueryClient, allowanceCeloDollarQueryKey]) 
+
+    const { data: isUserReferredToProvider, isLoading: isUserReferredToProviderLoading, queryKey: isUserReferredToProviderQueryKey } = useReadContract({
+        abi: divviAbi,
+        address: divvi,
+        functionName: "isUserReferredToProvider",
+        args: [address!, fleetOrderBook],
+    })
+    useEffect(() => { 
+        isUserReferredToProviderQueryClient.invalidateQueries({ queryKey: isUserReferredToProviderQueryKey }) 
+    }, [blockNumber, isUserReferredToProviderQueryClient, isUserReferredToProviderQueryKey]) 
 
 
     // approve USDT or CeloUSD (unlimited)
