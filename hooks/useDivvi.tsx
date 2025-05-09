@@ -1,7 +1,7 @@
-import { divvi } from '@/utils/constants/addresses'
-import { getDataSuffix, submitReferral } from '@divvi/referral-sdk'
-import { createWalletClient, custom } from 'viem'
-import { optimism } from 'viem/chains'
+import { divvi } from "@/utils/constants/addresses"
+import { getDataSuffix, submitReferral } from "@divvi/referral-sdk"
+import { createWalletClient, custom } from "viem"
+import { optimism } from "viem/chains"
 
 export const useDivvi = (account: `0x${string}`) => {
   
@@ -17,8 +17,8 @@ export const useDivvi = (account: `0x${string}`) => {
       // consumer is your Divvi Identifier
       // providers are the addresses of the Rewards Campaigns that you signed up for on the previous page
       const dataSuffix = getDataSuffix({
-        consumer: '0x99342D3CE2d10C34b7d20D960EA75bd742aec468',
-        providers: ['0x5f0a55FaD9424ac99429f635dfb9bF20c3360Ab8','0xB06a1b291863f923E7417E9F302e2a84018c33C5','0x6226ddE08402642964f9A6de844ea3116F0dFc7e'],
+        consumer: "0x99342D3CE2d10C34b7d20D960EA75bd742aec468",
+        providers: ["0x5f0a55FaD9424ac99429f635dfb9bF20c3360Ab8","0xB06a1b291863f923E7417E9F302e2a84018c33C5","0x6226ddE08402642964f9A6de844ea3116F0dFc7e"],
       })
       
       const txHash = await walletClient.sendTransaction({
