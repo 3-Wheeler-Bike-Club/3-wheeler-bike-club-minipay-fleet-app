@@ -1,7 +1,7 @@
+import { divvi } from '@/utils/constants/addresses'
 import { getDataSuffix, submitReferral } from '@divvi/referral-sdk'
 import { createWalletClient, custom } from 'viem'
 import { optimism } from 'viem/chains'
-import { divvi } from './constants/addresses'
 
 // Step 1: Create a wallet client and get the account
 export const walletClient = createWalletClient({
