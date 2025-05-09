@@ -38,5 +38,6 @@ export const useDivvi = (account: `0x${string}`) => {
         chainId: optimism.id,
       })          
     }
+    return { registerUser }
   
 }
