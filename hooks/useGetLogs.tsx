@@ -30,7 +30,7 @@ export const useGetLogs = (address: `0x${string}` | undefined) => {
         if (address) {
             const eventLogs = await publicClient.getLogs({
                 address: fleetOrderBook,
-                event: fleetOrderBookAbi[34],
+                event: fleetOrderBookAbi[35],
                 args: {
                     buyer: address,
                 },
