@@ -25,12 +25,25 @@ export const useGetLogs = (address: `0x${string}` | undefined) => {
             return eventLogs
         }
     }
-
+    async function fetchFractionsOverflowLogs() {
+        if (address) {
+            const eventLogs = await publicClient.getLogs({
+                address: fleetOrderBook,
+                event: fleetOrderBookAbi[32],
+                args: {
+                    buyer: address,
+                },
+                fromBlock: BigInt(33839270), 
+                toBlock: 'latest'
+            })   
+            return eventLogs
+        }
+    }
     async function fetchFullLogs() {
         if (address) {
             const eventLogs = await publicClient.getLogs({
                 address: fleetOrderBook,
-                event: fleetOrderBookAbi[34],
+                event: fleetOrderBookAbi[35],
                 args: {
                     buyer: address,
                 },
@@ -43,9 +56,10 @@ export const useGetLogs = (address: `0x${string}` | undefined) => {
     useEffect(() => {
         async function sortLogs() {
             const fractionsLogs = await fetchFractionsLogs()
+            const fractionsOverflowLogs = await fetchFractionsOverflowLogs()
             const fullLogs = await fetchFullLogs()
-            if (fractionsLogs && fullLogs) {
-                const combinedLogs = [...fractionsLogs, ...fullLogs];
+            if (fractionsLogs && fractionsOverflowLogs && fullLogs) {
+                const combinedLogs = [...fractionsLogs, ...fractionsOverflowLogs, ...fullLogs];
                 const sortedLogs = combinedLogs.sort((a, b) => {
                     return Number(b.blockNumber) - Number(a.blockNumber);
                 });
