@@ -18,7 +18,7 @@ import { motion } from "framer-motion"
 import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { /*USDT,*/ USDT_ADAPTER, divvi, /*cUSD,*/ fleetOrderBook } from "@/utils/constants/addresses";
+import { /*USDT,*/ USDT_ADAPTER, divvi, divviProviderProofOfShip, /*cUSD,*/ fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abis/fleetOrderBook";
 import { erc20Abi, maxUint256 } from "viem";
 import { celo } from "viem/chains";
@@ -103,7 +103,7 @@ export function Wrapper() {
         abi: divviAbi,
         address: divvi,
         functionName: "isUserReferredToProvider",
-        args: [address!, fleetOrderBook],
+        args: [address!, divviProviderProofOfShip],
     })
     useEffect(() => { 
         isUserReferredToProviderQueryClient.invalidateQueries({ queryKey: isUserReferredToProviderQueryKey }) 
@@ -385,7 +385,7 @@ export function Wrapper() {
                                     className={ `${allowanceUSDT && allowanceUSDT > 0 ? "w-48/100 hover:bg-yellow-600" : "w-48/100 bg-yellow-300 hover:bg-yellow-400"}` } 
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
-                                        if (allowanceUSDT && allowanceUSDT > 0) {
+                                        if (allowanceUSDT && allowanceUSDT > 0 && isUserReferredToProvider) {
                                             if (isFractionsMode) {
                                                 orderFleetFractionsWithUSDT(fractions)
                                             } else {
