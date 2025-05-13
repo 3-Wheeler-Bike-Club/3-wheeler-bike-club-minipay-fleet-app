@@ -617,19 +617,6 @@ export const fleetOrderBookAbi = [
     "stateMutability": "view"
   },
   {
-    "name": "contractURI",
-    "type": "function",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
     "name": "fleetERC20",
     "type": "function",
     "inputs": [
@@ -914,19 +901,6 @@ export const fleetOrderBookAbi = [
     "stateMutability": "nonpayable"
   },
   {
-    "name": "setContractURI",
-    "type": "function",
-    "inputs": [
-      {
-        "name": "_contractURI",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
     "name": "setFleetFractionPrice",
     "type": "function",
     "inputs": [
@@ -991,25 +965,6 @@ export const fleetOrderBookAbi = [
         "name": "",
         "type": "bool",
         "internalType": "bool"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "name": "tokenURI",
-    "type": "function",
-    "inputs": [
-      {
-        "name": "id",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "string",
-        "internalType": "string"
       }
     ],
     "stateMutability": "view"
