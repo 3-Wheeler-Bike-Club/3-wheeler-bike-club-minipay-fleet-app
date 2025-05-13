@@ -20,11 +20,12 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { /*USDT,*/ USDT_ADAPTER, divvi, /*cUSD,*/ fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abis/fleetOrderBook";
-import { erc20Abi, maxUint256 } from "viem";
-import { celo } from "viem/chains";
+import { erc20Abi } from "viem";
+import { celo, optimism } from "viem/chains";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { divviAbi } from "@/utils/abis/divvi";
+import { useDivvi } from "@/hooks/useDivvi";
 
 
 
@@ -48,6 +49,8 @@ export function Wrapper() {
     const allowanceCeloDollarQueryClient = useQueryClient()
     const isUserReferredToProviderQueryClient = useQueryClient()
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
+
+    const { registerUser, loading } = useDivvi()
 
 
 
@@ -97,82 +100,25 @@ export function Wrapper() {
     })
     useEffect(() => { 
         allowanceCeloDollarQueryClient.invalidateQueries({ queryKey: allowanceCeloDollarQueryKey }) 
-    }, [blockNumber, allowanceCeloDollarQueryClient, allowanceCeloDollarQueryKey]) 
+    }, [blockNumber, allowanceCeloDollarQueryClient, allowanceCeloDollarQueryKey])
+    console.log(allowanceCeloUSD)
+
 
     const { data: isUserReferredToProvider, isLoading: isUserReferredToProviderLoading, queryKey: isUserReferredToProviderQueryKey } = useReadContract({
         abi: divviAbi,
         address: divvi,
         functionName: "isUserReferredToProvider",
-        args: [address!, fleetOrderBook],
+        chainId: optimism.id,
+        args: [address!, "0x6226ddE08402642964f9A6de844ea3116F0dFc7e"],
+
     })
     useEffect(() => { 
         isUserReferredToProviderQueryClient.invalidateQueries({ queryKey: isUserReferredToProviderQueryKey }) 
     }, [blockNumber, isUserReferredToProviderQueryClient, isUserReferredToProviderQueryKey]) 
+    console.log(isUserReferredToProvider!)
 
 
-    // approve USDT or CeloUSD (unlimited)
-    async function approveUSDT() {
-        try {
-            setLoadingUSDT(true)
-            await writeContractAsync({
-                abi: erc20Abi,
-                address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*USDT*/,
-                chainId: celo.id,
-                feeCurrency: USDT_ADAPTER,
-                functionName: "approve",
-                args: [fleetOrderBook, (maxUint256) ],
-            },{
-                onSuccess() {
-                    //approval toast
-                    toast.info("Approval successful", {
-                        description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
-                    })
-                    setLoadingUSDT(false)
-                },
-                onError(error) {
-                    console.log(error)
-                    toast.error("Approval failed", {
-                        description: `Something went wrong, please try again`,
-                    })
-                    setLoadingUSDT(false)
-                }
-            });
-        } catch (error) {
-            console.log(error)
-            setLoadingUSDT(false)
-        }
-    }
-    async function approveCeloUSD() {
-        try {
-            setLoadingCeloUSD(true)
-            await writeContractAsync({
-                abi: erc20Abi,
-                address: "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6"/*cUSD*/,
-                chainId: celo.id,
-                feeCurrency: USDT_ADAPTER,
-                functionName: "approve",
-                args: [fleetOrderBook, (maxUint256) ],
-            },{
-                onSuccess() {
-                    //approval toast
-                    toast.info("Approval successful", {
-                        description: `You can now purchase the ${amount > 1 ? "3-Wheelers" : " 3-Wheeler"}`,
-                    })
-                    setLoadingCeloUSD(false)
-                },
-                onError(error) {
-                    console.log(error)
-                    toast.error("Approval failed", {
-                        description: `Something went wrong, please try again`,
-                    })
-                    setLoadingCeloUSD(false)
-                }
-            });
-        } catch (error) {
-            console.log(error)
-            setLoadingCeloUSD(false)
-        }
-    }
+   
 
 
     // order multiple fleet with USDT or celoUSD
@@ -385,19 +331,19 @@ export function Wrapper() {
                                     className={ `${allowanceUSDT && allowanceUSDT > 0 ? "w-48/100 hover:bg-yellow-600" : "w-48/100 bg-yellow-300 hover:bg-yellow-400"}` } 
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
-                                        if (allowanceUSDT && allowanceUSDT > 0) {
+                                        if (allowanceUSDT && allowanceUSDT > 0 && isUserReferredToProvider) {
                                             if (isFractionsMode) {
                                                 orderFleetFractionsWithUSDT(fractions)
                                             } else {
                                                 orderFleetWithUSDT()
                                             }
                                         } else {
-                                            approveUSDT()
+                                            registerUser(address!, "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6")
                                         }
                                     }}
                                 >
                                     {
-                                        loadingUSDT
+                                        loadingUSDT || loading
                                         ? (
                                             <>
                                                 <motion.div
@@ -421,7 +367,7 @@ export function Wrapper() {
                                                     )  
                                                     : (
                                                         <>
-                                                            {allowanceUSDT && allowanceUSDT > 0 ? "Pay with USDT" : "Approve USDT" }
+                                                            {allowanceUSDT && allowanceUSDT > 0 && isUserReferredToProvider ? "Pay with USDT" : "Approve USDT" }
                                                         </>
                                                     )
                                                 }
@@ -441,12 +387,12 @@ export function Wrapper() {
                                                 orderFleetWithCeloUSD()
                                             }
                                         } else {
-                                            approveCeloUSD()
+                                            registerUser(address!, "0x74869c892C9f64AC650e3eC13F6d07C0f21007a6")
                                         }
                                     }}
                                 >
                                     {
-                                        loadingCeloUSD
+                                        loadingCeloUSD || loading
                                         ? (
                                             <>
                                                 <motion.div
@@ -472,7 +418,7 @@ export function Wrapper() {
                                                     : (
                                                         <>
                                                             {
-                                                                allowanceCeloUSD && allowanceCeloUSD > 0 ? "Pay with cUSD" : "Approve cUSD"
+                                                                allowanceCeloUSD && allowanceCeloUSD > 0 && isUserReferredToProvider ? "Pay with cUSD" : "Approve cUSD"
                                                             }
                                                         </>
                                                     )
