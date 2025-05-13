@@ -21,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { /*USDT,*/ USDT_ADAPTER, divvi, /*cUSD,*/ fleetOrderBook } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abis/fleetOrderBook";
 import { erc20Abi } from "viem";
-import { celo } from "viem/chains";
+import { celo, optimism } from "viem/chains";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { divviAbi } from "@/utils/abis/divvi";
@@ -106,8 +106,10 @@ export function Wrapper() {
 
     const { data: isUserReferredToProvider, isLoading: isUserReferredToProviderLoading, queryKey: isUserReferredToProviderQueryKey } = useReadContract({
         abi: divviAbi,
-        address: "0xEdb51A8C390fC84B1c2a40e0AE9C9882Fa7b7277",
-        functionName: "owner",
+        address: divvi,
+        functionName: "isUserReferredToProvider",
+        chainId: optimism.id,
+        args: [address!, "0x6226ddE08402642964f9A6de844ea3116F0dFc7e"],
 
     })
     useEffect(() => { 
