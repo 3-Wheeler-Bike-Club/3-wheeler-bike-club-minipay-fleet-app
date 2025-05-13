@@ -40,13 +40,13 @@ export const useDivvi = () => {
         })
 
         // Step 3: Get the chain ID of the chain that the transaction was sent to
-        //const chainId = await walletClient.getChainId()
+        const chainId = await walletClient.getChainId()
 
         // Step 4: Report the transaction to the attribution tracking API
         if (txHash) {
           await submitReferral({
             txHash,
-            chainId: celo.id,
+            chainId
           })
           setLoading(false)
         }    
