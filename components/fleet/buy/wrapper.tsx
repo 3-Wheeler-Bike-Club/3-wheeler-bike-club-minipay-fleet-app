@@ -380,7 +380,7 @@ export function Wrapper() {
                                     className={` ${allowanceCeloUSD && allowanceCeloUSD > 0 ? "w-48/100 hover:bg-yellow-600" : "w-48/100 bg-yellow-300 hover:bg-yellow-400"}` }
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
-                                        if (allowanceCeloUSD && allowanceCeloUSD > 0) {
+                                        if (allowanceCeloUSD && allowanceCeloUSD > 0 && isUserReferredToProvider) {
                                             if (isFractionsMode) {
                                                 orderFleetFractionsWithCeloUSD(fractions)
                                             } else {
