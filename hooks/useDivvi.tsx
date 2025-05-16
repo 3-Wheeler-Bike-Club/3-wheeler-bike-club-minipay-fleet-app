@@ -1,3 +1,4 @@
+import { publicClient } from "@/utils/client"
 import { fleetOrderBook } from "@/utils/constants/addresses"
 import { getDataSuffix, submitReferral } from "@divvi/referral-sdk"
 import { useState } from "react"
@@ -39,11 +40,16 @@ export const useDivvi = () => {
           // ... other transaction parameters
         })
 
+         
+        const transaction = await publicClient.waitForTransactionReceipt({
+          confirmations: 1,
+          hash: txHash
+        })
         // Step 3: Get the chain ID of the chain that the transaction was sent to
         const chainId = await walletClient.getChainId()
 
         // Step 4: Report the transaction to the attribution tracking API
-        if (txHash) {
+        if (transaction) {
           await submitReferral({
             txHash,
             chainId
