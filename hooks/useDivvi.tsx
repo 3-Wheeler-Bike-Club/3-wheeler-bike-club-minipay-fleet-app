@@ -29,7 +29,7 @@ export const useDivvi = () => {
         // providers are the addresses of the Rewards Campaigns that you signed up for on the previous page
         const dataSuffix = getDataSuffix({
           consumer: "0x99342D3CE2d10C34b7d20D960EA75bd742aec468",
-          providers: ["0x5f0a55FaD9424ac99429f635dfb9bF20c3360Ab8", "0xB06a1b291863f923E7417E9F302e2a84018c33C5", "0x6226ddE08402642964f9A6de844ea3116F0dFc7e"],
+          providers: ["0x5f0a55FaD9424ac99429f635dfb9bF20c3360Ab8", "0xB06a1b291863f923E7417E9F302e2a84018c33C5", "0x6226ddE08402642964f9A6de844ea3116F0dFc7e", "0x0423189886D7966f0DD7E7d256898DAeEE625dca"]
         })
         const txHash = await walletClient.sendTransaction({
           account,
@@ -40,13 +40,13 @@ export const useDivvi = () => {
         })
 
         // Step 3: Get the chain ID of the chain that the transaction was sent to
-        //const chainId = await walletClient.getChainId()
+        const chainId = await walletClient.getChainId()
 
         // Step 4: Report the transaction to the attribution tracking API
         if (txHash) {
           await submitReferral({
             txHash,
-            chainId: celo.id,
+            chainId
           })
           setLoading(false)
         }    

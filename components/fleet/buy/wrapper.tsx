@@ -109,7 +109,7 @@ export function Wrapper() {
         address: divvi,
         functionName: "isUserReferredToProvider",
         chainId: optimism.id,
-        args: [address!, "0x6226ddE08402642964f9A6de844ea3116F0dFc7e"],
+        args: [address!, "0x0423189886D7966f0DD7E7d256898DAeEE625dca"],
 
     })
     useEffect(() => { 
@@ -380,7 +380,7 @@ export function Wrapper() {
                                     className={` ${allowanceCeloUSD && allowanceCeloUSD > 0 ? "w-48/100 hover:bg-yellow-600" : "w-48/100 bg-yellow-300 hover:bg-yellow-400"}` }
                                     disabled={loadingCeloUSD || loadingUSDT} 
                                     onClick={() => {
-                                        if (allowanceCeloUSD && allowanceCeloUSD > 0) {
+                                        if (allowanceCeloUSD && allowanceCeloUSD > 0 && isUserReferredToProvider) {
                                             if (isFractionsMode) {
                                                 orderFleetFractionsWithCeloUSD(fractions)
                                             } else {
