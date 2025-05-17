@@ -2,6 +2,7 @@ import { publicClient } from "@/utils/client"
 import { fleetOrderBook } from "@/utils/constants/addresses"
 import { getDataSuffix, submitReferral } from "@divvi/referral-sdk"
 import { useState } from "react"
+import { toast } from "sonner"
 import { createWalletClient, custom, encodeFunctionData, erc20Abi, maxUint256 } from "viem"
 import { celo } from "viem/chains"
 
@@ -55,10 +56,16 @@ export const useDivvi = () => {
             chainId
           })
           setLoading(false)
+          toast.info("Approval successful", {
+            description: "You can now purchase the 3-Wheelers",
+          })
         }    
       } catch (error) {
         console.log(error)
         setLoading(false)
+        toast.error("Approval failed", {
+          description: `Something went wrong, please try again`,
+        })
       }   
     }
     return { registerUser, loading }
