@@ -18,7 +18,7 @@ import { motion } from "framer-motion"
 import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { USDT_ADAPTER, divvi, /*cUSD,*/ fleetOrderBook, cUSD } from "@/utils/constants/addresses";
+import { USDT_ADAPTER, divvi, fleetOrderBook, cUSD } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abis/fleetOrderBook";
 import { encodeFunctionData, erc20Abi, formatUnits, parseUnits } from "viem";
 import { celo, optimism } from "viem/chains";
@@ -26,7 +26,6 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { divviAbi } from "@/utils/abis/divvi";
 import { useDivvi } from "@/hooks/useDivvi";
-import { fleetOrderTokenAbi } from "@/utils/abis/cUSD";
 import { publicClient } from "@/utils/client";
 
 
@@ -123,38 +122,7 @@ export function Wrapper() {
     }, [blockNumber, testTokenBalanceQueryClient, testTokenBalanceQueryKey]) 
     console.log(testTokenBalance!)
 
-    async function getTestTokens() {
-        try {
-            setLoadingCeloUSD(true)
-            const hash = await sendTransactionAsync({
-                to: cUSD,
-                data: encodeFunctionData({
-                    abi: fleetOrderTokenAbi,
-                    functionName: "dripPayeeFromPSP",
-                    args: [address!, parseUnits("1500000", 18)],
-                }),
-                chainId: celo.id,
-            })
-            const transaction = await publicClient.waitForTransactionReceipt({
-                confirmations: 1,
-                hash: hash
-            })
 
-            if (transaction) {
-                toast.success("Test Tokens Received", {
-                    description: `You can now make orders to your fleet with test tokens`,
-                })
-                setLoadingCeloUSD(false)
-            }
-            
-        } catch (error) {
-            console.log(error)
-            toast.error("Transaction failed", {
-                description: `Something went wrong, please try again`,
-            })
-            setLoadingCeloUSD(false)
-        }
-    }
 
 
    
@@ -313,7 +281,7 @@ export function Wrapper() {
                                             }
                                         } else {
                                             if ( (Number(formatUnits(testTokenBalance!, 18))) <= 2000 ) {
-                                                getTestTokens()
+                                                //getTestTokens()
                                             } else {
                                                 if (!isUserReferredToProvider  || (Number(formatUnits(allowanceCeloUSD!, 18))) === 0) {
                                                     registerUser(address!, cUSD)
