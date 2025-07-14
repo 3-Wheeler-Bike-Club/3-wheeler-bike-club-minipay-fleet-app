@@ -18,7 +18,7 @@ import { motion } from "framer-motion"
 import { ChartPie, Ellipsis, Minus, Plus, RefreshCw } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { USDT_ADAPTER, divvi, /*cUSD,*/ fleetOrderBook, fleetOrderToken } from "@/utils/constants/addresses";
+import { USDT_ADAPTER, divvi, fleetOrderBook, cUSD } from "@/utils/constants/addresses";
 import { fleetOrderBookAbi } from "@/utils/abis/fleetOrderBook";
 import { encodeFunctionData, erc20Abi, formatUnits, parseUnits } from "viem";
 import { celo, optimism } from "viem/chains";
@@ -26,7 +26,6 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { divviAbi } from "@/utils/abis/divvi";
 import { useDivvi } from "@/hooks/useDivvi";
-import { fleetOrderTokenAbi } from "@/utils/abis/fleetOrderToken";
 import { publicClient } from "@/utils/client";
 
 
@@ -87,7 +86,7 @@ export function Wrapper() {
 
     const { data: allowanceCeloUSD, isLoading: allowanceCeloDollarLoading, queryKey: allowanceCeloDollarQueryKey } = useReadContract({
         abi: erc20Abi,
-        address: fleetOrderToken/*cUSD*/,
+        address: cUSD/*cUSD*/,
         functionName: "allowance",
         args: [address!, fleetOrderBook],
     })
@@ -112,7 +111,7 @@ export function Wrapper() {
 
     const { data: testTokenBalance, queryKey: testTokenBalanceQueryKey } = useReadContract({
         abi: erc20Abi,
-        address: fleetOrderToken,
+        address: cUSD,
         functionName: "balanceOf",
         chainId: celo.id,
         args: [address!],
@@ -123,38 +122,7 @@ export function Wrapper() {
     }, [blockNumber, testTokenBalanceQueryClient, testTokenBalanceQueryKey]) 
     console.log(testTokenBalance!)
 
-    async function getTestTokens() {
-        try {
-            setLoadingCeloUSD(true)
-            const hash = await sendTransactionAsync({
-                to: fleetOrderToken,
-                data: encodeFunctionData({
-                    abi: fleetOrderTokenAbi,
-                    functionName: "dripPayeeFromPSP",
-                    args: [address!, parseUnits("1500000", 18)],
-                }),
-                chainId: celo.id,
-            })
-            const transaction = await publicClient.waitForTransactionReceipt({
-                confirmations: 1,
-                hash: hash
-            })
 
-            if (transaction) {
-                toast.success("Test Tokens Received", {
-                    description: `You can now make orders to your fleet with test tokens`,
-                })
-                setLoadingCeloUSD(false)
-            }
-            
-        } catch (error) {
-            console.log(error)
-            toast.error("Transaction failed", {
-                description: `Something went wrong, please try again`,
-            })
-            setLoadingCeloUSD(false)
-        }
-    }
 
 
    
@@ -170,7 +138,7 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "orderFleet",
-                args: [BigInt(amount), fleetOrderToken/*cUSD*/],
+                args: [BigInt(amount), cUSD/*cUSD*/],
             },{
                 onSuccess() {
                     //success toast
@@ -205,7 +173,7 @@ export function Wrapper() {
                 chainId: celo.id,
                 feeCurrency: USDT_ADAPTER,
                 functionName: "orderFleetFraction",
-                args: [BigInt(shares), fleetOrderToken/*cUSD*/],
+                args: [BigInt(shares), cUSD/*cUSD*/],
             },{
                 onSuccess() {
                     //success toast
@@ -313,10 +281,10 @@ export function Wrapper() {
                                             }
                                         } else {
                                             if ( (Number(formatUnits(testTokenBalance!, 18))) <= 2000 ) {
-                                                getTestTokens()
+                                                //getTestTokens()
                                             } else {
                                                 if (!isUserReferredToProvider  || (Number(formatUnits(allowanceCeloUSD!, 18))) === 0) {
-                                                    registerUser(address!, fleetOrderToken)
+                                                    registerUser(address!, cUSD)
                                                 } else {
                                                     toast.error("Already approved!", {
                                                         description: "You are have already approved & registered to a provider",
