@@ -1,5 +1,5 @@
 import { injected } from "wagmi/connectors";
-import { cookieStorage, createConfig, createStorage, http } from "wagmi";
+import { createConfig, http } from "wagmi";
 import { celo, optimism } from "wagmi/chains";
 
 export const config = createConfig({
