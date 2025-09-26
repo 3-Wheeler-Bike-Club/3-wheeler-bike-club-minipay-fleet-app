@@ -5,7 +5,6 @@ import {
   Drawer,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -14,7 +13,7 @@ import { Button } from "../../ui/button";
 import { HistoryIcon } from "lucide-react";
 import { useGetLogs } from "@/hooks/useGetLogs";
 import { useAccount } from "wagmi";
-import { Table, TableBody, TableCaption } from "../../ui/table";
+import { Table, TableBody } from "../../ui/table";
 import { Log } from "./log";
 
 
