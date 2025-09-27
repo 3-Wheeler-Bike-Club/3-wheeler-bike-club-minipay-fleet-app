@@ -5,6 +5,7 @@ import { WagmiContext } from "@/context/wagmiContext";
 import { MiniAppContext } from "@/context/miniAppContext";
 import { Toaster } from "@/components/ui/sonner"
 import { Footer } from "@/components/bottom/footer";
+import { headers } from "next/headers";
 
 
 
@@ -19,17 +20,20 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersObj = await headers();
+  const cookies = headersObj.get("cookie")
+
   return (
     <html lang="en">
       <body
         className={`${geistMono.className}`}
       >
-        <WagmiContext>
+        <WagmiContext cookies={cookies}>
           <MiniAppContext>
               {children}
               <Footer />

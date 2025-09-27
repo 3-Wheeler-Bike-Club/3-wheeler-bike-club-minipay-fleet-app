@@ -16,7 +16,7 @@ export const useDivvi = () => {
         // Step 1: Create a wallet client and get the account
         const walletClient = createWalletClient({
           chain: celo,
-          transport: custom(window.ethereum),
+          transport: custom(window.ethereum as any),
         })
 
         const data = encodeFunctionData({
