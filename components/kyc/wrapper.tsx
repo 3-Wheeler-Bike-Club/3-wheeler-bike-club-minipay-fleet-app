@@ -8,10 +8,10 @@ import { useEffect } from "react"
 import { Menu } from "@/components/top/menu"
 import { useRouter } from "next/navigation"
 import { useGetProfile } from "@/hooks/useGetProfile"
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { DoorOpen, UserRoundSearch } from "lucide-react"
-import { VerifyKYC } from "./verifyKYC"
-import { VerifyContact } from "./verifyContact"
+import { VerifyKYC } from "@/components/kyc/verifyKYC"
+import { VerifyContact } from "@/components/kyc/verifyContact"
 
 
 
