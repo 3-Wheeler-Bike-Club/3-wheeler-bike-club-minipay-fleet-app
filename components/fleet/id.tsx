@@ -27,7 +27,7 @@ export function Id( {fleet}: IdProps ) {
     const { data: isfleetFractioned, queryKey: isfleetFractionedQueryKey } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
-        functionName: "fleetFractioned",
+        functionName: "getFleetFractioned",
         args: [BigInt(Number(fleet))],
     })
     useEffect(() => { 
@@ -49,7 +49,7 @@ export function Id( {fleet}: IdProps ) {
     const { data: totalFractions, queryKey: totalFractionsQueryKey } = useReadContract({
         address: fleetOrderBook,
         abi: fleetOrderBookAbi,
-        functionName: "totalFractions",
+        functionName: "totalSupply",
         args: [BigInt(Number(fleet))],
     })
     useEffect(() => { 
