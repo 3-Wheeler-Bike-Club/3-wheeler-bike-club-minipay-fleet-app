@@ -155,7 +155,7 @@ export function Wrapper() {
                 data: encodeFunctionData({
                     abi: fleetOrderBookAbi,
                     functionName: "orderFleet",
-                    args: [BigInt(amount), cUSD],
+                    args: [BigInt(amount), cUSD, address!],
                 }),
                 chainId: celo.id,
             })
@@ -194,7 +194,7 @@ export function Wrapper() {
                 data: encodeFunctionData({
                     abi: fleetOrderBookAbi,
                     functionName: "orderFleetFraction",
-                    args: [BigInt(shares), cUSD],
+                    args: [BigInt(shares), cUSD, address!],
                 }),
                 chainId: celo.id,
             })
