@@ -203,7 +203,7 @@ export function Wrapper() {
                                         size="icon"
                                         className="h-8 w-8 shrink-0 rounded-full"
                                         onClick={isFractionsMode ? decreaseFractions : decrease}
-                                        disabled={isFractionsMode ? fractions <= 1 : amount <= 1}
+                                        disabled={ isFractionsMode ? fractions <= 1 : amount <= 1 || loadingApproval || loadingOrderFleet || loadingOrderFleetFraction || ( allowanceCeloUSD == BigInt(0)) }
 
                                     >
                                         <Minus />
@@ -225,7 +225,7 @@ export function Wrapper() {
                                         size="icon"
                                         className="h-8 w-8 shrink-0 rounded-full"
                                         onClick={isFractionsMode ? increaseFractions : increase}
-                                        disabled={isFractionsMode ? fractions >= 50 : amount >= 3}
+                                        disabled={ (isFractionsMode ? fractions >= 50 : amount >= 3) || loadingApproval || loadingOrderFleet || loadingOrderFleetFraction || ( allowanceCeloUSD == BigInt(0)) }
                                     >
                                         <Plus />
                                         <span className="sr-only">Increase</span>
@@ -241,7 +241,7 @@ export function Wrapper() {
                                     {/**pay with celoUSD */}
                                     <Button 
                                         className={` ${allowanceCeloUSD && allowanceCeloUSD > 0 ? "w-full hover:bg-yellow-600" : "w-full bg-yellow-300 hover:bg-yellow-400"}` }
-                                        disabled={loadingOrderFleet || loadingOrderFleetFraction  || loadingApproval} 
+                                        disabled={loadingOrderFleet || loadingOrderFleetFraction || loadingApproval} 
                                         onClick={() => {
                                             if (allowanceCeloUSD && allowanceCeloUSD > 0) {
                                                 if (isFractionsMode) {
